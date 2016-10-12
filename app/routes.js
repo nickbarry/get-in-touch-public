@@ -34,6 +34,24 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/contacts',
+      name: 'contactPage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/ContactPage/reducer'),
+          System.import('containers/ContactPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, component]) => {
+          injectReducer('contactPage', reducer.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
