@@ -54,16 +54,9 @@ cp('internals/templates/languageProvider/languageProvider.js',
   'app/containers/LanguageProvider/index.js');
 cp('internals/templates/languageProvider/reducer.js',
   'app/containers/LanguageProvider/reducer.js');
-cp('internals/templates/languageProvider/selectors.js',
-  'app/containers/LanguageProvider/selectors.js');
 cp('internals/templates/styles.css', 'app/containers/App/styles.css');
 
-// Copy selectors
 mkdir('app/containers/App/tests');
-cp('internals/templates/selectors.js',
-  'app/containers/App/selectors.js');
-cp('internals/templates/selectors.test.js',
-  'app/containers/App/tests/selectors.test.js');
 
 // Utils
 rm('-rf', 'app/utils');
