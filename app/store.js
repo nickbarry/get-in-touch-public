@@ -6,10 +6,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import homepageSagas from './containers/HomePage/sagas';
 import createReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
-const devtools = window.devToolsExtension || (() => (noop) => noop);
+const devtools = window.devToolsExtension || (() => noop => noop);
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -33,6 +34,9 @@ export default function configureStore(initialState = {}, history) {
 
   // Create hook for async sagas
   store.runSaga = sagaMiddleware.run;
+
+  // Run sagas
+  homepageSagas.forEach(saga => store.runSaga(saga));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

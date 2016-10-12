@@ -1,0 +1,46 @@
+.contactCard { /* stylelint-disable */
+  border-bottom: solid #ccc 1px;
+  padding-bottom: 10px;
+}
+
+.btnContacted{
+  float: right;
+}
+
+.stats{
+  color: #999;
+  display: inline-block;
+}
+
+.composeLabel{
+  float: right;
+}
+
+#contact--btn-add-new{
+  padding: 10px 0;
+}
+
+input{
+  padding: 5px 0;
+  margin: 5px 0;
+}
+
+input[type=checkbox] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+/* Default State */
+.notesAndCompose{
+  display: none;
+}
+
+/* Toggled State */
+input[type=checkbox]:checked ~ .notesAndCompose{
+  display: block;
+}
+
+textarea{
+  width: 795px;
+}
