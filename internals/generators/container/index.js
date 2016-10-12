@@ -32,7 +32,7 @@ module.exports = {
     type: 'confirm',
     name: 'wantActionsAndReducer',
     default: true,
-    message: 'Do you want an actions/constants/selectors/reducer tupel for this container?',
+    message: 'Do you want an actions/constants/reducer tupel for this container?',
   }, {
     type: 'confirm',
     name: 'wantSagas',
@@ -100,20 +100,6 @@ module.exports = {
         type: 'add',
         path: '../../app/containers/{{properCase name}}/constants.js',
         templateFile: './container/constants.js.hbs',
-        abortOnFail: true,
-      });
-
-      // Selectors
-      actions.push({
-        type: 'add',
-        path: '../../app/containers/{{properCase name}}/selectors.js',
-        templateFile: './container/selectors.js.hbs',
-        abortOnFail: true,
-      });
-      actions.push({
-        type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/selectors.test.js',
-        templateFile: './container/selectors.test.js.hbs',
         abortOnFail: true,
       });
 
