@@ -40,8 +40,9 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
         <button className={styles.btnEdit}>Edit</button>
         <button className={styles.btnDelete}>Delete</button>
         <p className={styles.stats}>
-          Contacted {this.props.contact.get('lastContactedLabel')}.
-          Contact every {this.props.contact.get('contactFrequency')} days
+          use this one? Contacted {this.props.contact.get('lastContactedLabel')}.
+          or this one? Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
+          Contact every { this.props.contact.get('contactFrequency') } days
         </p>
         <label className={styles.composeLabel} htmlFor={`notes-chk-${this.props.contact.get('id')}`}>Message {this.props.contact.name}</label>
         <input type="checkbox" id={`notes-chk-${this.props.contact.get('id')}`} />
