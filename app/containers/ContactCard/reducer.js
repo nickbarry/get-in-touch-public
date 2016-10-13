@@ -19,22 +19,19 @@ function convertDatesToMoment(contact) {
 }
 
 function loadFetchedContactData(state, action) {
-  const idsInState = state.map((contact)=>contact.get('id'));
-  const newContacts = action.contacts.filter((contact)=> {
-    return !idsInState.includes(contact.id);
-  })
-  newContacts.forEach(contact => convertDatesToMoment(contact));
-  return state.push(...(newContacts.map(contact => fromJS(contact))));
+  const idsInState = state.map((contact) => contact.get('id'));
+  const newContacts = action.contacts.filter((contact) => !idsInState.includes(contact.id));
+  newContacts.forEach((contact) => convertDatesToMoment(contact));
+  return state.push(...(newContacts.map((contact) => fromJS(contact))));
 }
 
 function updateLastContactedDate(state, action) {
-  return state.map(contact => {
+  return state.map((contact) => {
     // We only want to update the relevant contact
     if (contact.get('id') === action.contactId) {
       return contact.set('lastContacted', action.lastContacted);
-    } else {
-      return contact;
     }
+    return contact;
   });
 }
 
