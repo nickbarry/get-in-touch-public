@@ -39,7 +39,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
           <button className={ styles.btnContacted }>Just contacted!</button>
         </h3>
         <p className={ styles.stats }>
-          Contacted { this.props.contact.get('lastContactedLabel') }.
+          Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
           Contact every { this.props.contact.get('contactFrequency') } days
         </p>
         <label className={ styles.composeLabel } htmlFor={ `notes-chk-${ this.props.contact.get('id') }` }>Message { this.props.contact.name }...</label>
