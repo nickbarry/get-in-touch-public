@@ -1,66 +1,67 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import messages from './messages';
+
 import styles from './styles.css';
 import { List, Map } from 'immutable';
 
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const storiesGroupedByTopic = this.props.stories
-      //.filter(story => !this.props.contact.get('storiesDone').includes(story.get('id')))
-      .sortBy(story => story.get('topic'))
+      // .filter(story => !this.props.contact.get('storiesDone').includes(story.get('id')))
+      .sortBy((story) => story.get('topic'))
       .reduce((groupsOfTopics, story) => {
         const topic = story.get('topic');
         const lastGroup = groupsOfTopics.last(); // should be a Map, or undefined if this is the first story
-        const needToCreateNewGrouping = (lastGroup === undefined) || (lastGroup.get('topic') !== topic);
+        // defined and not used? ---> const needToCreateNewGrouping = (lastGroup === undefined) || (lastGroup.get('topic') !== topic);
 
         // If we need to create a new topic grouping for this current story:
         if ((lastGroup === undefined) || (lastGroup.get('topic') !== story.get('topic'))) {
           // Create a new grouping of topics
-          const newGroup = Map({
+          const newGroup = Map({ // eslint-disable-line
             topic,
-            stories: List([story]),
+            stories: List([story]), // eslint-disable-line
           });
 
           // Add the new topic grouping to the list of topics
           return groupsOfTopics.push(newGroup);
         }
-        else { // Otherwise, we'll add this story to the existing final grouping of topics
-          const lastGroupStories = lastGroup.get('stories');
-          const updatedGroup = lastGroup.set('stories', lastGroupStories.push(story));
-          return groupsOfTopics.set(-1, updatedGroup);
-        }
-      }, List());
+        // Otherwise, we'll add this story to the existing final grouping of topics
+        const lastGroupStories = lastGroup.get('stories');
+        const updatedGroup = lastGroup.set('stories', lastGroupStories.push(story));
+        return groupsOfTopics.set(-1, updatedGroup);
+      }, List()); // eslint-disable-line
 
     return (
       <div className={styles.contactCard}>
         <h3>
-          { this.props.contact.get('name') }
-          <button className={ styles.btnContacted }>Just contacted!</button>
+          {this.props.contact.get('name')}
+          <button className={styles.btnContacted}>Just contacted!</button>
         </h3>
-        <p className={ styles.stats }>
-          Contacted { this.props.contact.get('lastContactedLabel') }.
-          Contact every { this.props.contact.get('contactFrequency') } days
+        <button className={styles.btnEdit}>Edit</button>
+        <button className={styles.btnDelete}>Delete</button>
+        <p className={styles.stats}>
+          Contacted {this.props.contact.get('lastContactedLabel')}.
+          Contact every {this.props.contact.get('contactFrequency')} days
         </p>
-        <label className={ styles.composeLabel } htmlFor={ `notes-chk-${ this.props.contact.get('id') }` }>Message { this.props.contact.name }...</label>
-        <input type="checkbox" id={ `notes-chk-${ this.props.contact.get('id') }` }/>
-        <div className={ styles.notesAndCompose }>
-          <div className={ styles.notes }>
+        <label className={styles.composeLabel} htmlFor={`notes-chk-${this.props.contact.get('id')}`}>Message {this.props.contact.name}</label>
+        <input type="checkbox" id={`notes-chk-${this.props.contact.get('id')}`} />
+        <div className={styles.notesAndCompose}>
+          <div className={styles.notes}>
             <h4>Notes</h4>
-            <textarea name="contact--notes--edit" rows="10" defaultValue={ this.props.contact.get('notes') } />
+            <textarea name="contact--notes--edit" rows="10" defaultValue={this.props.contact.get('notes')} />
           </div>
-          <div className={ styles.compose }>
+          <div className={styles.compose}>
             <h4>Compose a message</h4>
             <select>
               <option value="">-- share a story --</option>
               {
                 storiesGroupedByTopic
                   .map((topicGroup, i) => (
-                    <optgroup key={ i } label={ topicGroup.get('topic') }>
+                    <optgroup key={i} label={topicGroup.get('topic')}>
                       {
                         topicGroup.get('stories')
-                          .map((story, i) => (
-                            <option key={ i } value={ story.get('id') }>{ story.get('title') }</option>
+                          .map((story, i) => ( // eslint-disable-line
+                            <option key={i} value={story.get('id')}>{story.get('title')}</option>
                           ))
                           .toArray()
                       }
@@ -76,7 +77,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const stories = state.get('stories');
   return { stories };
 };

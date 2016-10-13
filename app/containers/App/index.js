@@ -14,7 +14,8 @@
 import React from 'react';
 
 import styles from './styles.css';
-import Navbar from './navbar';
+import Navbar from '../../components/NavBar';
+import SideBar from '../../components/SideBar';
 
 export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -26,6 +27,7 @@ export default class App extends React.Component { // eslint-disable-line react/
     return (
       <div className={styles.container}>
         <Navbar />
+        <SideBar />
         {React.Children.toArray(this.props.children)}
       </div>
     );
