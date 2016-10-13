@@ -7,7 +7,7 @@ import { List, Map } from 'immutable';
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const storiesGroupedByTopic = this.props.stories
-      .filter(story => !this.props.contact.get('storiesDone').includes(story.get('id')))
+      //.filter(story => !this.props.contact.get('storiesDone').includes(story.get('id')))
       .sortBy(story => story.get('topic'))
       .reduce((groupsOfTopics, story) => {
         const topic = story.get('topic');

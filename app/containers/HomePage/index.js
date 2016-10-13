@@ -9,26 +9,15 @@ import { requestContactData } from './actions';
 import axios from 'axios';
 
 class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  // I'm only creating this temporarily to test my ajax call to the server.
-  constructor(props) {
-    super(props);
-    this.state = {
-      contacts: [],
-    };
-  }
-
   componentWillMount() {
-    console.log('HomePage about to mount');
-    axios.get('/api/contacts')
-      .then(response => {
-        console.log(response.data);
-        this.setState({ contacts: response.data });
-      });
+    // When the component is loading, we request the contacts from the server
+    this.props.requestContactData();
   }
 
   render() {
+    // Determine which contacts are due or overdue today
     const NOW = new Date();
-    const contactsDueToday = this.state.contacts.filter(contact => contact.get('contactNext').isBefore(NOW));
+    const contactsDueToday = this.props.contacts.filter(contact => contact.get('contactNext').isBefore(NOW));
 
     return (
       <div>
