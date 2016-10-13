@@ -1,9 +1,13 @@
-class server {
-  fetchAllContacts() {
+import axios from 'axios';
 
-  }
+const server = {
+  fetchAllContacts: function () {
+    return axios.get('/api/contacts');
+  },
 };
 
-module.exports = {
+const APIs = {
   server,
 };
+
+export default APIs;

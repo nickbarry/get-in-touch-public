@@ -6,9 +6,16 @@ import messages from './messages';
 import ContactCard from '../ContactCard';
 import moment from 'moment';
 import { requestContactData } from './actions';
+import axios from 'axios';
 
 class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  componentWillMount() {
+    // When the component is loading, we request the contacts from the server
+    this.props.requestContactData();
+  }
+
   render() {
+    // Determine which contacts are due or overdue today
     const NOW = new Date();
     const contactsDueToday = this.props.contacts.filter(contact => contact.get('contactNext').isBefore(NOW));
 
