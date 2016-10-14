@@ -27,12 +27,12 @@ rm('-rf', 'app/components/*');
 rm('-rf', 'app/containers/*');
 mkdir('-p', 'app/containers/App');
 mkdir('-p', 'app/containers/NotFoundPage');
-mkdir('-p', 'app/containers/HomePage');
+mkdir('-p', 'app/containers/Dashboard');
 cp('internals/templates/appContainer.js', 'app/containers/App/index.js');
 cp('internals/templates/notFoundPage/notFoundPage.js', 'app/containers/NotFoundPage/index.js');
 cp('internals/templates/notFoundPage/messages.js', 'app/containers/NotFoundPage/messages.js');
-cp('internals/templates/homePage/homePage.js', 'app/containers/HomePage/index.js');
-cp('internals/templates/homePage/messages.js', 'app/containers/HomePage/messages.js');
+cp('internals/templates/homePage/homePage.js', 'app/containers/Dashboard/index.js');
+cp('internals/templates/homePage/messages.js', 'app/containers/Dashboard/messages.js');
 
 // Handle Translations
 mkdir('-p', 'app/translations');

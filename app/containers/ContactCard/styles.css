@@ -1,6 +1,8 @@
 .contactCard { /* stylelint-disable */
   border-bottom: solid #ccc 1px;
   padding-bottom: 10px;
+  margin-left: 5%;
+  margin-right: 10%;
 }
 
 .btnContacted{
@@ -20,12 +22,22 @@
   padding: 10px 0;
 }
 
+.btnDelete{
+  float:right;
+  display: inline;
+  border: 1px solid black;
+}
+.btnEdit{
+  float: right;
+  display: inline;
+  border: 1px solid black;
+}
 input{
   padding: 5px 0;
   margin: 5px 0;
 }
 
-input[type=checkbox] {
+input[type=checkbox]{
   position: absolute;
   top: -9999px;
   left: -9999px;
