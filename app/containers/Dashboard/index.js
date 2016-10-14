@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ContactCard from '../ContactCard';
 import { requestContactData } from './actions';
+import styles from './styles.css';
 
-class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Dashboard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     // When the component is loading, we request the contacts from the server
     this.props.requestContactData();
@@ -17,6 +18,9 @@ class HomePage extends React.Component { // eslint-disable-line react/prefer-sta
 
     return (
       <div>
+        <div className={styles.dashboardHeader}>
+          Filter menu goes here?
+        </div>
         {
           contactsDueToday.map((contact, i) => (
             <ContactCard key={i} contact={contact} />
@@ -36,4 +40,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ requestContactData }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

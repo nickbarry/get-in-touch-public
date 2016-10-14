@@ -20,7 +20,7 @@ This is what a standard (generated) route looks like for a container:
   name: 'home',
   getComponent(nextState, cb) {
     const importModules = Promise.all([
-      System.import('containers/HomePage')
+      System.import('containers/Dashboard')
     ]);
 
     const renderRoute = loadModule(cb);
