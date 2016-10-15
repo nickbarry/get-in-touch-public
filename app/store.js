@@ -10,7 +10,7 @@ import homepageSagas from './containers/Dashboard/sagas';
 import createReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
-const devtools = window.devToolsExtension || (() => noop => noop);
+const devtools = window.devToolsExtension || (() => (noop) => noop);
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -36,7 +36,7 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga = sagaMiddleware.run;
 
   // Run sagas
-  homepageSagas.forEach(saga => store.runSaga(saga));
+  homepageSagas.forEach((saga) => store.runSaga(saga));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
