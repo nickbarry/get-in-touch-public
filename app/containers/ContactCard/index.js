@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.css';
 import { List, Map } from 'immutable';
-
+import { Button } from 'react-bootstrap';
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const storiesGroupedByTopic = this.props.stories
@@ -36,8 +36,8 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
           {this.props.contact.get('name')}
           <button className={styles.btnContacted}>Just contacted!</button>
         </h3>
-        <button className={styles.btnEdit}>Edit</button>
-        <button className={styles.btnDelete}>Delete</button>
+        <Button className={styles.btnEdit}>Edit</Button>
+        <Button className={styles.btnDelete}>Delete</Button>
         <p className={styles.stats}>
           Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
           Contact every { this.props.contact.get('contactFrequency') } days

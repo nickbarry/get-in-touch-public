@@ -15,7 +15,7 @@ import React from 'react';
 import styles from './styles.css';
 import Navbar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
-import Dashboard from '../Dashboard';
+import { Grid, Col } from 'react-bootstrap';
 
 export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -23,16 +23,15 @@ export default class App extends React.Component { // eslint-disable-line react/
     children: React.PropTypes.node,
   };
   render() {
-    const mainContentStyle = {
-      'margin-left': '10%'
-    }
     return (
-      <div className={styles.container}>
+      <div>
         <Navbar />
-        <SideBar />
-        <div style={mainContentStyle}>
+        <Col sm={2} md={3}>
+          <SideBar />
+        </Col>
+        <Col sm={10} md={9}>
           {React.Children.toArray(this.props.children)}
-        </div>
+        </Col>
       </div>
     );
   }
