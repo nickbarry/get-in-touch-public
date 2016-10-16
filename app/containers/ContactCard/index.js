@@ -8,6 +8,7 @@ import styles from './styles.css';
 import { List, Map } from 'immutable';
 import { Button } from 'react-bootstrap';
 import { requestContactDeletion } from './actions';
+
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const storiesGroupedByTopic = this.props.stories
