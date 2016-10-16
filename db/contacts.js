@@ -35,19 +35,19 @@ const Contact = {};
 //});
 
 // Contacts API
-//const ContactsAPI = {
-//  fetch: function() {
-//    return ContactModel.fetchAll()
-//      .then(contacts => {
-//        return contacts.toJSON();
-//      });
-//  },
-//  delete: function(userId) {
-//    return (new ContactModel({ id: userId})).destroy();
-//  },
-//};
-//
-////<editor-fold desc="Add dummy data to db">
+const ContactsAPI = {
+  fetch: function() {
+    return ContactModel.fetchAll()
+      .then(contacts => {
+        return contacts.toJSON();
+      });
+  },
+  delete: function(userId) {
+    return (new ContactModel({ id: userId})).destroy();
+  },
+};
+
+//<editor-fold desc="Add dummy data to db">
 //const dummyContactData = [
 //  {
 //    name: 'Elyse Greenarry',
