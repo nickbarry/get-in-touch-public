@@ -6,8 +6,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
-import homepageSagas from './containers/HomePage/sagas';
-import contactCardSagas from './containers/ContactCard/sagas';
 import homepageSagas from './containers/Dashboard/sagas';
 import contactCardSagas from './containers/ContactCard/sagas';
 import createReducer from './reducers';
