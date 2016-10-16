@@ -11,3 +11,9 @@ export const CONTACT_FETCH_FAILED = 'app/Dashboard/CONTACT_FETCH_FAILED';
 
 // For a specific contact
 export const MARK_CONTACT_CONTACTED = 'app/ContactCard/MARK_CONTACT_CONTACTED';
+
+// Deleting a contact
+export const REQUEST_CONTACT_DELETION = 'app/ContactCard/REQUEST_CONTACT_DELETION';
+export const CONTACT_DELETION_SUCCESSFUL = 'app/ContactCard/CONTACT_DELETION_SUCCESSFUL';
+export const CONTACT_DELETION_FAILED = 'app/ContactCard/CONTACT_DELETION_FAILED';
+
