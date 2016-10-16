@@ -6,9 +6,9 @@ const knex = require('knex')({
     filename: './db/db.sqlite',
   },
   useNullAsDefault: true, // sqlite does not support inserting default values.
+  debug: true,
 });
 const bookshelf = require('bookshelf')(knex);
-const moment = require('moment');
 
 module.exports = {
   knex,
