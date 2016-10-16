@@ -1,5 +1,8 @@
 import {
   MARK_CONTACT_CONTACTED,
+  REQUEST_CONTACT_DELETION,
+  CONTACT_DELETION_SUCCESSFUL,
+  CONTACT_DELETION_FAILED,
 } from './constants';
 import moment from 'moment';
 
@@ -17,3 +20,11 @@ export function markContactContacted(contactId, lastContacted = getToday()) {
     lastContacted,
   };
 }
+
+export function requestContactDeletion(contactId) {
+  return {
+    type: REQUEST_CONTACT_DELETION,
+    contactId,
+  };
+}
+// The contactDeletionSuccessful action is fired by the saga

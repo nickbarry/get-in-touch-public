@@ -5,9 +5,15 @@
  */
 
 // For requesting contacts from the server
-export const REQUEST_CONTACT_DATA = 'app/HomePage/REQUEST_CONTACT_DATA';
-export const CONTACT_FETCH_SUCCEEDED = 'app/HomePage/CONTACT_FETCH_SUCCEEDED';
-export const CONTACT_FETCH_FAILED = 'app/HomePage/CONTACT_FETCH_FAILED';
+export const REQUEST_CONTACT_DATA = 'app/ContactCard/REQUEST_CONTACT_DATA';
+export const CONTACT_FETCH_SUCCEEDED = 'app/ContactCard/CONTACT_FETCH_SUCCEEDED';
+export const CONTACT_FETCH_FAILED = 'app/ContactCard/CONTACT_FETCH_FAILED';
 
 // For a specific contact
 export const MARK_CONTACT_CONTACTED = 'app/ContactCard/MARK_CONTACT_CONTACTED';
+
+// Deleting a contact
+export const REQUEST_CONTACT_DELETION = 'app/ContactCard/REQUEST_CONTACT_DELETION';
+export const CONTACT_DELETION_SUCCESSFUL = 'app/ContactCard/CONTACT_DELETION_SUCCESSFUL';
+export const CONTACT_DELETION_FAILED = 'app/ContactCard/CONTACT_DELETION_FAILED';
+

@@ -1,4 +1,4 @@
-import { REQUEST_CONTACT_DATA } from './constants';
+import { REQUEST_CONTACT_DATA } from '../ContactCard/constants';
 
 export function requestContactData() {
   return {

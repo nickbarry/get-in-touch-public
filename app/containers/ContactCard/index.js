@@ -1,8 +1,12 @@
+'use strict';
+
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import messages from './messages';
 import styles from './styles.css';
 import { List, Map } from 'immutable';
+import { requestContactDeletion } from './actions';
 
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -32,12 +36,19 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
         }
       }, List());
 
+    //console.log('This contact\'s id is: ', this.props.contact.get('id'));
+
     return (
       <div className={styles.contactCard}>
         <h3>
           { this.props.contact.get('name') }
           <button className={ styles.btnContacted }>Just contacted!</button>
         </h3>
+        <p>
+          <button onClick={ () => this.props.requestContactDeletion(this.props.contact.get('id')) }>
+            Delete
+          </button>
+        </p>
         <p className={ styles.stats }>
           Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
           Contact every { this.props.contact.get('contactFrequency') } days
@@ -82,9 +93,7 @@ const mapStateToProps = state => {
 };
 
 function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
+  return bindActionCreators({ requestContactDeletion }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
