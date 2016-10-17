@@ -1,20 +1,17 @@
-'use strict';
-
 const ContactsAPI = require('../../db/contacts');
 
 const contacts = {
-  fetch: function(req, res) {
-    ContactsAPI.fetch().then(contacts => {
-      //console.log('Server is about to send these contacts: ', contacts);
-      res.send(contacts)
+  fetch(req, res) {
+    ContactsAPI.fetch().then((fetchedContacts) => {
+      res.send(fetchedContacts);
     });
   },
-  delete: function(req, res) {
+  delete(req, res) {
     ContactsAPI.delete(req.params.userId)
-      .then(model => {
+      .then(() => {
         res.status(204).send();
       })
-      .catch(err => res.status(400).send(err));
+      .catch((err) => res.status(400).send(err));
   },
 };
 
