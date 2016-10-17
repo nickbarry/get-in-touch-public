@@ -18,7 +18,8 @@ knex.schema.createTableIfNotExists('contacts', table => {
   table.string('contactNext');
   table.string('notes');
   table.timestamps();
-}).then(() => console.log('Contacts table created.'));
+}).then(() => (undefined)); // We need to call .then to create the table, but don't need
+// to actually do anything in the callback.
 
 // Contacts model
 const ContactModel = bookshelf.Model.extend({
