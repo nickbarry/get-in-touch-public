@@ -17,9 +17,9 @@ function groupStoriesByTopic(stories) {
       // If we need to create a new topic grouping for this current story:
       if ((lastGroup === undefined) || (lastGroup.get('topic') !== story.get('topic'))) {
         // Create a new grouping of topics
-        const newGroup = Map({ // eslint-disable-line
+        const newGroup = Map({ // eslint-disable-line new-cap
           topic,
-          stories: List([story]), // eslint-disable-line
+          stories: List([story]), // eslint-disable-line new-cap
         });
 
         // Add the new topic grouping to the list of topics
@@ -29,7 +29,7 @@ function groupStoriesByTopic(stories) {
       const lastGroupStories = lastGroup.get('stories');
       const updatedGroup = lastGroup.set('stories', lastGroupStories.push(story));
       return groupsOfTopics.set(-1, updatedGroup);
-    }, List()); // eslint-disable-line
+    }, List()); // eslint-disable-line new-cap
 }
 
 function createOptionGroups(storiesGroupedByTopic) {
