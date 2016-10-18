@@ -1,9 +1,6 @@
-'use strict';
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import messages from './messages';
 import styles from './styles.css';
 import { List, Map } from 'immutable';
 import { Button } from 'react-bootstrap';
@@ -11,7 +8,6 @@ import { requestContactDeletion } from './actions';
 
 function groupStoriesByTopic(stories) {
   return stories
-    //.filter(story => !this.props.contact.get('storiesDone').includes(story.get('id')))
     .sortBy((story) => story.get('topic'))
     .reduce((groupsOfTopics, story) => {
       const topic = story.get('topic');
@@ -62,8 +58,9 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
           <button className={styles.btnContacted}>Just contacted!</button>
         </h3>
         <Button className={styles.btnEdit}>Edit</Button>
-        <Button className={styles.btnDelete}
-                onClick={ () => this.props.requestContactDeletion(this.props.contact.get('id')) }
+        <Button
+          className={styles.btnDelete}
+          onClick={() => this.props.requestContactDeletion(this.props.contact.get('id'))}
         >
           Delete
         </Button>
@@ -91,6 +88,12 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     );
   }
 }
+
+ContactCard.propTypes = {
+  contact: React.PropTypes.object,
+  stories: React.PropTypes.array,
+  requestContactDeletion: React.PropTypes.func,
+};
 
 const mapStateToProps = (state) => {
   const stories = state.get('stories');
