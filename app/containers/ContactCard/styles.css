@@ -1,11 +1,64 @@
 .contactCard { /* stylelint-disable */
   border-bottom: solid #ccc 1px;
-  padding-bottom: 10px;
+  position: relative;
+}
+
+.buttonGroup {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.btnEdit{
+  margin-right: 5px;
+  background-color: #ccc;
+}
+.btnEdit:hover {
+  background-color: #0b97c4;
+  border-color: #0b97c4;
+  color: white;
+}
+.btnDelete{
+  background-color: #ccc;
+}
+.btnDelete:hover{
+  background-color: #ff525e;
+  border-color: #ff525e;
+  color: white;
 }
 
 .btnContacted{
-  float: right;
+  background-color: #bbb;
+  position: relative;
+  top: -7px;
+  right: -12px;
 }
+.btnContacted:hover{
+  background-color: #5bcf64;
+  border-color: #5bcf64;
+  color: white;
+  position: relative;
+  top: -7px;
+  right: -12px;
+}
+
+.avatarColumn {
+  width: 100px;
+  height: 100%;
+  position: relative;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  position: relative;
+  left: -13px;
+}
+
+.contactName {
+}
+
 
 .stats{
   color: #999;
@@ -20,14 +73,6 @@
   padding: 10px 0;
 }
 
-.btnDelete{
-  float:right;
-  display: inline;
-}
-.btnEdit{
-  float: right;
-  display: inline;
-}
 input{
   padding: 5px 0;
   margin: 5px 0;
@@ -51,4 +96,9 @@ input[type=checkbox]:checked ~ .notesAndCompose{
 
 textarea{
   width: 795px;
+}
+
+.contactNowToggleBar {
+  background-color: #eee;
+  margin-bottom: 0px;
 }

@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styles from './styles.css';
+import avatar from './default-avatar.png';
 import { List, Map } from 'immutable';
-import { Button } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem, Button, Glyphicon } from 'react-bootstrap';
 import { requestContactDeletion } from './actions';
 
 function groupStoriesByTopic(stories) {
@@ -48,50 +49,75 @@ function createOptionGroups(storiesGroupedByTopic) {
 }
 
 export class ContactCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    const storiesGroupedByTopic = groupStoriesByTopic(this.props.stories);
-
+  renderOptionButtons() {
     return (
-      <div className={styles.contactCard}>
-        <h3>
-          {this.props.contact.get('name')}
-          <button className={styles.btnContacted}>Just contacted!</button>
-        </h3>
-        <Button className={styles.btnEdit}>Edit</Button>
+      <div className={styles.buttonGroup}>
+        <Button className={styles.btnEdit}>
+          <Glyphicon glyph="pencil" /> Edit
+        </Button>
         <Button
           className={styles.btnDelete}
           onClick={() => this.props.requestContactDeletion(this.props.contact.get('id'))}
         >
-          Delete
+          <Glyphicon glyph="trash" /> Delete
         </Button>
-        <p className={styles.stats}>
-          Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
-          Contact every { this.props.contact.get('contactFrequency') } days
-        </p>
-        <label className={styles.composeLabel} htmlFor={`notes-chk-${this.props.contact.get('id')}`}>Message {this.props.contact.name}</label>
-        <input type="checkbox" id={`notes-chk-${this.props.contact.get('id')}`} />
-        <div className={styles.notesAndCompose}>
-          <div className={styles.notes}>
-            <h4>Notes</h4>
-            <textarea name="contact--notes--edit" rows="10" defaultValue={this.props.contact.get('notes')} />
-          </div>
-          <div className={styles.compose}>
-            <h4>Compose a message</h4>
-            <select>
-              <option value="">-- share a story --</option>
-              {createOptionGroups(storiesGroupedByTopic)}
-            </select><br />
-            <textarea rows="10" />
+      </div>
+    );
+  }
+
+  render() {
+    const storiesGroupedByTopic = groupStoriesByTopic(this.props.stories);
+
+    return (
+      <Panel className={styles.contactCard}>
+        {this.renderOptionButtons()}
+        <div className="container-fluid">
+          <div className="row">
+            <div className={`${styles.avatarColumn} col-sm-2`}>
+              <img className={`${styles.avatar}`} src={avatar} alt="user avatar" />
+            </div>
+            <div className="col-sm-10">
+              <h3 className={styles.contactName}>{this.props.contact.get('name')}</h3>
+              <p className={styles.stats}>
+                Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }.
+                Contact every { this.props.contact.get('contactFrequency') } days
+              </p>
+              <label className={styles.composeLabel} htmlFor={`notes-chk-${this.props.contact.get('id')}`}>Message {this.props.contact.name}</label>
+              <input type="checkbox" id={`notes-chk-${this.props.contact.get('id')}`} />
+              <div className={styles.notesAndCompose}>
+                <div className={styles.notes}>
+                  <h4>Notes</h4>
+                  <textarea name="contact--notes--edit" rows="10" defaultValue={this.props.contact.get('notes')} />
+                </div>
+                <div className={styles.compose}>
+                  <h4>Compose a message</h4>
+                  <select>
+                    <option value="">-- share a story --</option>
+                    {createOptionGroups(storiesGroupedByTopic)}
+                  </select><br />
+                  <textarea rows="10" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+        <ListGroup fill>
+          <ListGroupItem className={`${styles.contactNowToggleBar} text-center`}>
+            Contact Now <Glyphicon glyph="chevron-down" />
+            <Button className={`${styles.btnContacted} pull-right`}>
+              <Glyphicon glyph="ok" /> Just contacted!
+            </Button>
+          </ListGroupItem>
+        </ListGroup>
+      </Panel>
     );
   }
 }
 
 ContactCard.propTypes = {
   contact: React.PropTypes.object,
-  stories: React.PropTypes.array,
+  stories: React.PropTypes.object,
   requestContactDeletion: React.PropTypes.func,
 };
 
