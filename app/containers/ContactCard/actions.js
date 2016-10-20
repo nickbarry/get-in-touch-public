@@ -1,4 +1,5 @@
 import {
+  REQUEST_UPDATE_CONTACT,
   MARK_CONTACT_CONTACTED,
   REQUEST_CONTACT_DELETION,
 } from './constants';
@@ -14,6 +15,16 @@ export function markContactContacted(contactId, lastContactedParam = getToday())
     type: MARK_CONTACT_CONTACTED,
     contactId,
     lastContacted,
+  };
+}
+
+export function requestUpdateContact(contactId, formValues) {
+  const values = formValues.toJS();
+
+  return {
+    type: REQUEST_UPDATE_CONTACT,
+    contactId,
+    values,
   };
 }
 
