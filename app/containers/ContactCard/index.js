@@ -59,6 +59,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   onClickContactNowToggleBar(e) {
     e.preventDefault(); // prevent normal link behavior and event bubbling
     this.setState({ expanded: !this.state.expanded });
+    console.log(this.contactToggleButton); // .blur();
   }
 
   renderComposePane() {
@@ -76,7 +77,10 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
             <option value="">-- share a story --</option>
             {createOptionGroups(storiesGroupedByTopic)}
           </select><br />
-          <textarea rows="10" />
+          <textarea
+            rows="10"
+            ref={(c) => (c && c.focus())}
+          />
         </div>
       </div>
     );
@@ -125,9 +129,12 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
           </div>
         </div>
 
-        { /* todo: make this a link, and give a on-hover color change */}
         <div className={this.state.expanded ? styles.contactNowToggleBarExpanded : styles.contactNowToggleBar}>
-          <Button onClick={(e) => this.onClickContactNowToggleBar(e)} className={styles.contactNowToggleButton} bsSize="small">
+          <Button
+            onClick={(e) => this.onClickContactNowToggleBar(e)}
+            className={styles.contactNowToggleButton}
+            bsSize="small"
+          >
             {this.state.expanded ? 'Hide ' : 'Contact Now '}
             {this.state.expanded ? <Glyphicon glyph="chevron-up" /> : <Glyphicon glyph="chevron-down" />}
           </Button>
