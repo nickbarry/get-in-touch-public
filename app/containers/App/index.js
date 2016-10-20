@@ -12,10 +12,9 @@
  */
 
 import React from 'react';
-import styles from './styles.css';
 import Navbar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
-import { Grid, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
