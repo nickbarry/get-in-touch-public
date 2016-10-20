@@ -40,7 +40,7 @@ export default function configureStore(initialState = {}, history) {
   [
     ...homepageSagas,
     ...contactCardSagas,
-  ].forEach(saga => store.runSaga(saga));
+  ].forEach((saga) => store.runSaga(saga));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

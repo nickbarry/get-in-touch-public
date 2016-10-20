@@ -1,12 +1,10 @@
-'use strict';
-
 const db = require('./init');
 const knex = db.knex;
 const bookshelf = db.bookshelf;
-const moment = require('moment');
+
 
 // Contacts table schema
-knex.schema.createTableIfNotExists('contacts', table => {
+knex.schema.createTableIfNotExists('contacts', (table) => {
   table.increments('id').primary();
   table.string('name');
   table.string('email');
@@ -27,32 +25,22 @@ const ContactModel = bookshelf.Model.extend({
   hasTimestamps: true,
 });
 
-// Contact model API
-const Contact = {};
-
-//// Contacts collection
-//const ContactsCollection = bookshelf.Collection.extend({
-//  model: Contact,
-//});
-
 // Contacts API
 const ContactsAPI = {
   fetch: function() {
     return ContactModel.fetchAll()
-      .then(contacts => {
-        return contacts.toJSON();
-      });
+      .then((contacts) => contacts.toJSON());
   },
   delete: function(userId) {
     return (new ContactModel({ id: userId})).destroy();
   },
 };
 
-//<editor-fold desc="Add dummy data to db">
-//const dummyContactData = [
+// <editor-fold desc="Add dummy data to db">
+// const dummyContactData = [
 //  {
 //    name: 'Elyse Greenarry',
-//    //id: 1,
+//    // id: 1,
 //    lastContacted: new moment("2016-07-01").hours(0).minutes(0).seconds(0).milliseconds(0),
 //    contactFrequency: 1,
 //    contactNext: new moment("2016-07-02"),
@@ -60,7 +48,7 @@ const ContactsAPI = {
 //  },
 //  {
 //    name: 'Chris Brenton',
-//    //id: 2,
+//    // id: 2,
 //    lastContacted: new moment("2016-06-30"),
 //    contactFrequency: 14,
 //    contactNext: new moment("2016-07-13"),
@@ -69,7 +57,7 @@ const ContactsAPI = {
 //  },
 //  {
 //    name: 'Catrina Fuentes',
-//    //id: 3,
+//    // id: 3,
 //    lastContacted: new moment("2015-02-20"),
 //    contactFrequency: 180,
 //    contactNext: new moment("2016-10-20"),
@@ -78,7 +66,7 @@ const ContactsAPI = {
 //  },
 //  {
 //    name: 'Nick Winter',
-//    //id: 4,
+//    // id: 4,
 //    lastContacted: new moment("2015-01-30"),
 //    contactFrequency: 365,
 //    contactNext: new moment("2016-01-30"),
@@ -86,15 +74,15 @@ const ContactsAPI = {
 //  },
 //  {
 //    name: 'Reed Cureton',
-//    //id: 5,
+//    // id: 5,
 //    lastContacted: new moment("2016-10-10").hours(0).minutes(0).seconds(0).milliseconds(0),
 //    contactFrequency: 3,
 //    contactNext: (new moment("2016-10-10")).add(3, 'days'),
 //    notes: 'Get him to tell more funny jokes. Thank him for being a kick-ass fellow.',
 //  },
-//];
+// ];
 //
-//dummyContactData.forEach(c => {
+// dummyContactData.forEach(c => {
 //  const contact = new ContactModel();
 //  contact.set('name', c.name);
 //  contact.set('contactFrequency', c.contactFrequency);
@@ -105,7 +93,7 @@ const ContactsAPI = {
 //  contact.save()
 //    .then(u => console.log('User saved: ', `${u.get('id')} ${u.get('name')}`))
 //    .catch(e => console.log(e));
-//});
-//</editor-fold>
+// });
+// </editor-fold>
 
 module.exports = ContactsAPI;

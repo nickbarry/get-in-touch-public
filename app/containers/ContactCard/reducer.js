@@ -44,11 +44,9 @@ function contactsReducer(state = INITIAL_STATE, action) {
     case MARK_CONTACT_CONTACTED:
       return updateLastContactedDate(state, action);
     case CONTACT_FETCH_SUCCEEDED:
-      //console.log('reducer: action with new contacts:', action);
       return loadFetchedContactData(state, action);
     case CONTACT_DELETION_SUCCESSFUL:
-      console.log('about to delete this contact (in reducer): ', action.contactId);
-      return state.filter(contact => contact.get('id') !== action.contactId);
+      return state.filter((contact) => contact.get('id') !== action.contactId);
     default:
       return state;
   }

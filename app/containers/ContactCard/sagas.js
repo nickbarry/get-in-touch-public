@@ -14,7 +14,7 @@ function* deleteContact(action) {
     if (response.error) {
       throw new Error(response.error);
     }
-    //console.log('server response: ', response);
+    // console.log('server response: ', response);
     yield put({ type: CONTACT_DELETION_SUCCESSFUL, contactId: action.contactId });
   } catch (error) {
     yield put({ type: CONTACT_DELETION_FAILED, contactId: action.contactId, error });
