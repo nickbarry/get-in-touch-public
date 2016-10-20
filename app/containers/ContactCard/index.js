@@ -5,7 +5,8 @@ import styles from './styles.css';
 import avatar from './default-avatar.png';
 import { List, Map } from 'immutable';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
-import { requestContactDeletion } from './actions';
+import { requestUpdateContact, requestContactDeletion } from './actions';
+import EditContact from './EditContact';
 
 function groupStoriesByTopic(stories) {
   return stories
@@ -53,12 +54,26 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     super(props);
     this.state = {
       expanded: false,
+      editing: false,
     };
   }
 
   onClickContactNowToggleBar(e) {
     e.preventDefault(); // prevent normal link behavior and event bubbling
     this.setState({ expanded: !this.state.expanded });
+  }
+
+  onClickEdit(e) {
+    e.preventDefault();
+    this.setState({ editing: true });
+  }
+
+  onClickCancelEdit() {
+    this.setState({ editing: false });
+  }
+
+  handleEditSubmit(values) {
+    this.props.requestUpdateContact(this.props.contact.get('id'), values);
   }
 
   renderComposePane() {
@@ -76,8 +91,35 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
             <option value="">-- share a story --</option>
             {createOptionGroups(storiesGroupedByTopic)}
           </select><br />
-          <textarea rows="10" />
+          <textarea
+            rows="10"
+            ref={(c) => (c && c.focus())}
+          />
         </div>
+      </div>
+    );
+  }
+
+  renderContactDetails() {
+    const contactFrequency = +this.props.contact.get('contactFrequency');
+    const numberOfDaysLabel = contactFrequency === 1 ?
+      'day' :
+      `${contactFrequency} days`;
+
+    return (
+      <div className={`${styles.contactInfo} col-sm-10`}>
+        {this.renderOptionButtons()}
+        <h3>{this.props.contact.get('name')}</h3>
+        <p className={styles.stats}>
+          Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }<br />
+          Contact every { numberOfDaysLabel }<br />
+          <Button className={styles.justContacted} bsSize="small">
+            <Glyphicon glyph="ok" /> Just contacted!
+          </Button>
+        </p>
+        <p>
+          <span>{this.props.contact.get('email') || 'hello@hellothere.com'}</span> | <span>{this.props.contact.get('phone') || '(555) 555 5555'}</span>
+        </p>
       </div>
     );
   }
@@ -85,7 +127,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   renderOptionButtons() {
     return (
       <div className={`${styles.buttonGroup} pull-right`}>
-        <Button className={styles.btnEdit}>
+        <Button className={styles.btnEdit} onClick={(e) => this.onClickEdit(e)}>
           <Glyphicon glyph="pencil" /> Edit
         </Button>
         <Button
@@ -99,11 +141,6 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   render() {
-    const contactFrequency = +this.props.contact.get('contactFrequency');
-    const numberOfDaysLabel = contactFrequency === 1 ?
-      'day' :
-      `${contactFrequency} days`;
-
     return (
       <Panel className={styles.contactCard}>
         <div className="container-fluid">
@@ -111,23 +148,24 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
             <div className={`${styles.avatarColumn} col-sm-2`}>
               <img className={`${styles.avatar}`} src={avatar} alt="user avatar" />
             </div>
-            <div className={`${styles.contactInfo} col-sm-10`}>
-              {this.renderOptionButtons()}
-              <h3 className={styles.contactName}>{this.props.contact.get('name')}</h3>
-              <p className={styles.stats}>
-                Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }<br />
-                Contact every { numberOfDaysLabel }<br />
-                <Button className={styles.justContacted} bsSize="small">
-                  <Glyphicon glyph="ok" /> Just contacted!
-                </Button>
-              </p>
-            </div>
+            {
+              this.state.editing ?
+                <EditContact
+                  onCancelClick={() => this.onClickCancelEdit()}
+                  onSubmit={this.handleEditSubmit}
+                  form={`EditContactForm_${this.props.contact.get('id')}`}
+                /> :
+                this.renderContactDetails()
+            }
           </div>
         </div>
 
-        { /* todo: make this a link, and give a on-hover color change */}
         <div className={this.state.expanded ? styles.contactNowToggleBarExpanded : styles.contactNowToggleBar}>
-          <Button onClick={(e) => this.onClickContactNowToggleBar(e)} className={styles.contactNowToggleButton} bsSize="small">
+          <Button
+            onClick={(e) => this.onClickContactNowToggleBar(e)}
+            className={styles.contactNowToggleButton}
+            bsSize="small"
+          >
             {this.state.expanded ? 'Hide ' : 'Contact Now '}
             {this.state.expanded ? <Glyphicon glyph="chevron-up" /> : <Glyphicon glyph="chevron-down" />}
           </Button>
@@ -143,6 +181,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
 ContactCard.propTypes = {
   contact: React.PropTypes.object,
   stories: React.PropTypes.object,
+  requestUpdateContact: React.PropTypes.func,
   requestContactDeletion: React.PropTypes.func,
 };
 
@@ -152,7 +191,7 @@ const mapStateToProps = (state) => {
 };
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ requestContactDeletion }, dispatch);
+  return bindActionCreators({ requestContactDeletion, requestUpdateContact }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);

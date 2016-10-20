@@ -18,7 +18,7 @@ const AddContactForm = (props) => {
 };
 
 AddContactForm.propTypes = {
-  handleSubmit: React.propTypes.func.isRequired,
+  handleSubmit: React.PropTypes.func.isRequired,
 };
 
 export default reduxForm({

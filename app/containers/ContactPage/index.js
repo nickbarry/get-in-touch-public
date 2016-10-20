@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styles from './styles.css';
 import ContactCard from '../ContactCard';
 import { Link } from 'react-router';
+
 export class ContactPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const allContacts = this.props.contacts;
@@ -18,6 +19,10 @@ export class ContactPage extends React.Component { // eslint-disable-line react/
     );
   }
 }
+
+ContactPage.propTypes = {
+  contacts: React.PropTypes.object,
+};
 
 function mapStateToProps(state) {
   return {
