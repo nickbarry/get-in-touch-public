@@ -1,11 +1,53 @@
 .contactCard { /* stylelint-disable */
   border-bottom: solid #ccc 1px;
-  padding-bottom: 10px;
+  position: relative;
 }
 
-.btnContacted{
-  float: right;
+.buttonGroup {
+  /*position: absolute;*/
+  /*top: 5px;*/
+  /*right: 5px;*/
 }
+
+.btnEdit{
+  margin-right: 5px;
+  background-color: #ccc;
+}
+.btnEdit:hover {
+  background-color: #0b97c4;
+  border-color: #0b97c4;
+  color: white;
+}
+.btnDelete{
+  background-color: #ccc;
+}
+.btnDelete:hover{
+  background-color: #ff525e;
+  border-color: #ff525e;
+  color: white;
+}
+
+.avatarColumn {
+  width: 100px;
+  height: 100%;
+  position: relative;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  position: relative;
+  left: -13px;
+}
+
+.contactInfo h3 {
+  margin-top: 0;
+}
+
+.contactName {
+}
+
 
 .stats{
   color: #999;
@@ -20,35 +62,50 @@
   padding: 10px 0;
 }
 
-.btnDelete{
-  float:right;
-  display: inline;
-}
-.btnEdit{
-  float: right;
-  display: inline;
-}
-input{
-  padding: 5px 0;
-  margin: 5px 0;
-}
-
-input[type=checkbox]{
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
-
-/* Default State */
-.notesAndCompose{
-  display: none;
-}
-
-/* Toggled State */
-input[type=checkbox]:checked ~ .notesAndCompose{
-  display: block;
-}
-
 textarea{
   width: 795px;
+}
+
+.contactNowToggleBar {
+  margin: 0;
+  margin-bottom: -16px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+.contactNowToggleBarExpanded {
+  margin: 0;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+.contactNowToggleBar:hover, .contactNowToggleBarExpanded:hover {
+  background-color: #ccc;
+}
+
+.contactNowToggleButton {
+  background-color: #eee;
+  width: 100%;
+  -moz-border-radius-topleft: 0;
+  border-radius: 0 0 4px 4px;
+}
+.contactNowToggleBarExpanded .contactNowToggleButton {
+  border-radius: 0;
+}
+.contactNowToggleButton:hover {
+  background-color: #ccc;
+}
+.contactNowToggleButton:focus {
+  outline:0;
+  background-color: #eee;
+}
+
+.justContacted {
+  background-color: #eee;
+  min-width: 140px;
+  max-width: 140px;
+  float: right;
+}
+.justContacted:hover {
+  background-color: #5bcf64;
+  border-color: #5bcf64;
+  color: white;
 }

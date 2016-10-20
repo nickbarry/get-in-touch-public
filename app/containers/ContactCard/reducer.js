@@ -8,20 +8,24 @@ import { fromJS } from 'immutable';
 import {
   MARK_CONTACT_CONTACTED,
   CONTACT_FETCH_SUCCEEDED,
+  CONTACT_DELETION_SUCCESSFUL,
 } from './constants';
 import moment from 'moment';
 
 const INITIAL_STATE = fromJS([]);
 
 function convertDatesToMoment(contact) {
-  contact.contactNext = moment(contact.contactNext);
-  contact.lastContacted = moment(contact.lastContacted);
+  const updatedContact = Object.assign({}, contact);
+  updatedContact.contactNext = moment(contact.contactNext);
+  updatedContact.lastContacted = moment(contact.lastContacted);
+  return updatedContact;
 }
 
 function loadFetchedContactData(state, action) {
   const idsInState = state.map((contact) => contact.get('id'));
-  const newContacts = action.contacts.filter((contact) => !idsInState.includes(contact.id));
-  newContacts.forEach((contact) => convertDatesToMoment(contact));
+  const newContacts = action.contacts
+    .filter((contact) => !idsInState.includes(contact.id))
+    .map((contact) => convertDatesToMoment(contact));
   return state.push(...(newContacts.map((contact) => fromJS(contact))));
 }
 
@@ -41,6 +45,8 @@ function contactsReducer(state = INITIAL_STATE, action) {
       return updateLastContactedDate(state, action);
     case CONTACT_FETCH_SUCCEEDED:
       return loadFetchedContactData(state, action);
+    case CONTACT_DELETION_SUCCESSFUL:
+      return state.filter((contact) => contact.get('id') !== action.contactId);
     default:
       return state;
   }
