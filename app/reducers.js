@@ -44,10 +44,10 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(asyncReducers) {
   return combineReducers({
     form: formReducer,
-    route:    routeReducer,
+    route: routeReducer,
     language: languageProviderReducer,
     contacts: contactsReducer,
-    stories:  storiesReducer,
+    stories: storiesReducer,
     ...asyncReducers,
   });
 }

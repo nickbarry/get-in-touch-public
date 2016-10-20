@@ -8,7 +8,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.css';
 import { Button, Modal } from 'react-bootstrap';
-import { reducer as reduxFormReducer } from 'redux-form'
+import AddContactForm from './AddContactForm';
 
 export class AddContactButton extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -23,11 +23,10 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
   open() {
     this.setState({ showModal: true });
   }
-  addFormSumbit(e){
-    console.log('form submitted', e)
+  addFormSumbit(e) {
+    return e;
   }
   render() {
-    const AddContactForm = require('./AddContactForm').default
     return (
       <div className={styles.addContactButton}>
         <Button
@@ -38,7 +37,7 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
         Add Contact
         </Button>
         <Modal show={this.state.showModal} onHide={this.close}>
-          <AddContactForm onSubmit={this.addFormSumbit}/>
+          <AddContactForm onSubmit={this.addFormSumbit} />
         </Modal>
       </div>
     );
