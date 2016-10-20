@@ -27,12 +27,12 @@ const ContactModel = bookshelf.Model.extend({
 
 // Contacts API
 const ContactsAPI = {
-  fetch: function() {
+  fetch() {
     return ContactModel.fetchAll()
       .then((contacts) => contacts.toJSON());
   },
-  delete: function(userId) {
-    return (new ContactModel({ id: userId})).destroy();
+  delete(userId) {
+    return (new ContactModel({ id: userId })).destroy();
   },
 };
 

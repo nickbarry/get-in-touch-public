@@ -31,6 +31,11 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
   }
 }
 
+Dashboard.propTypes = {
+  requestContactData: React.PropTypes.func,
+  contacts: React.PropTypes.obj,
+};
+
 function mapStateToProps(state) {
   const contacts = state.get('contacts');
   return { contacts };
