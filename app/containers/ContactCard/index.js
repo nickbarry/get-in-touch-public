@@ -125,6 +125,9 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
                   <Glyphicon glyph="ok" /> Just contacted!
                 </Button>
               </p>
+              <p>
+                <span>{this.props.contact.get('email') || 'hello@hellothere.com'}</span> | <span>{this.props.contact.get('phone') || '(555) 555 5555'}</span>
+              </p>
             </div>
           </div>
         </div>
