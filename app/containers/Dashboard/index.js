@@ -33,7 +33,7 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
 
 Dashboard.propTypes = {
   requestContactData: React.PropTypes.func,
-  contacts: React.PropTypes.obj,
+  contacts: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
