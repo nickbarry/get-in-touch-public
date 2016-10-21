@@ -10,6 +10,7 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
     // When the component is loading, we request the contacts from the server
     this.props.requestContactData();
   }
+
   render() {
     // Determine which contacts are due or overdue today
     const NOW = new Date();
@@ -32,7 +33,7 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
 
 Dashboard.propTypes = {
   requestContactData: React.PropTypes.func,
-  // contacts: React.PropTypes.obj,
+  contacts: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {

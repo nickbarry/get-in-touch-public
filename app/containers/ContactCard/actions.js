@@ -21,6 +21,7 @@ export function markContactContacted(contactId, lastContactedParam = getToday())
 export function requestUpdateContact(contactId, formValues) {
   const values = formValues.toJS();
 
+
   return {
     type: REQUEST_UPDATE_CONTACT,
     contactId,

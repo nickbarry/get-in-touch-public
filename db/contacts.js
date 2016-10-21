@@ -31,6 +31,19 @@ const ContactsAPI = {
     return ContactModel.fetchAll()
       .then((contacts) => contacts.toJSON());
   },
+  update(contactId, values) {
+    console.log('db/contacts.js:35: id, values', contactId, values);
+    return ContactModel.forge({ id: contactId })
+      .save(values, {
+        method: 'update',
+        patch: true,
+        require: true,
+      })
+      .then((contact) => {
+        console.log('Returned from Bookshelf: ', contact.get('name'));
+        return contact;
+      });
+  },
   delete(userId) {
     return (new ContactModel({ id: userId })).destroy();
   },

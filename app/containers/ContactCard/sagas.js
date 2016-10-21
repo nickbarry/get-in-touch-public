@@ -2,12 +2,30 @@ import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import APIs from '../../APIs';
 import {
+  REQUEST_UPDATE_CONTACT,
+  UPDATE_CONTACT_SUCCESSFUL,
+  UPDATE_CONTACT_FAILED,
   REQUEST_CONTACT_DELETION,
   CONTACT_DELETION_SUCCESSFUL,
   CONTACT_DELETION_FAILED,
 } from './constants';
 
-// Will be fired on each REQUEST_CONTACT_DELETION action
+function* updateContact(action) {
+  try {
+    const response = yield call(APIs.server.updateContact, action.contactId, action.values);
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    yield put({
+      type: UPDATE_CONTACT_SUCCESSFUL,
+      contactId: action.contactId,
+      values: action.values,
+    });
+  } catch (error) {
+    yield put({ type: UPDATE_CONTACT_FAILED, contactId: action.contactId, error });
+  }
+}
+
 function* deleteContact(action) {
   try {
     const response = yield call(APIs.server.deleteContact, action.contactId);
@@ -25,8 +43,12 @@ function* deleteContact(action) {
 export function* deleteContactSaga() {
   yield* takeEvery(REQUEST_CONTACT_DELETION, deleteContact);
 }
+export function* updateContactSaga() {
+  yield* takeEvery(REQUEST_UPDATE_CONTACT, updateContact);
+}
 
 // All sagas to be loaded
 export default [
   deleteContactSaga,
+  updateContactSaga,
 ];
