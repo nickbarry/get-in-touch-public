@@ -16,6 +16,7 @@ const INITIAL_STATE = fromJS([]);
 
 function convertDatesToMoment(contact) {
   const updatedContact = Object.assign({}, contact);
+  console.log('app/containers/ContactCard/reducer.js:19: contactNext; lastContacted: ', contact.contactNext, contact.lastContacted);
   updatedContact.contactNext = moment(contact.contactNext);
   updatedContact.lastContacted = moment(contact.lastContacted);
   return updatedContact;
