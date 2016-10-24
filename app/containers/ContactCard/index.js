@@ -7,6 +7,7 @@ import { List, Map } from 'immutable';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
 import { requestUpdateContact, requestContactDeletion } from './actions';
 import EditContact from './EditContact';
+import moment from 'moment';
 
 function groupStoriesByTopic(stories) {
   return stories
@@ -77,13 +78,14 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   renderComposePane() {
+    const { contact } = this.props;
     const storiesGroupedByTopic = groupStoriesByTopic(this.props.stories);
 
     return (
       <div className={styles.notesAndCompose}>
         <div className={styles.notes}>
-          <h4>Notes about {this.props.contact.get('name')}</h4>
-          <textarea name="contact--notes--edit" rows="10" defaultValue={this.props.contact.get('notes')} />
+          <h4>Notes about {contact.get('name')}</h4>
+          <textarea name="contact--notes--edit" rows="10" defaultValue={contact.get('notes')} />
         </div>
         <div className={styles.compose}>
           <h4>Compose a message</h4>
@@ -101,30 +103,36 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   renderContactDetails() {
-    const contactFrequency = +this.props.contact.get('contactFrequency');
+    const { contact } = this.props;
+    const contactFrequency = +contact.get('contactFrequency');
     const numberOfDaysLabel = contactFrequency === 1 ?
       'day' :
       `${contactFrequency} days`;
+    const lastContactedLabel = contact.get('lastContacted').format('MMM D, YYYY');
+    const lastContactedDescription = lastContactedLabel === 'Invalid date' ?
+      'Never contacted' :
+      `Last contacted ${lastContactedLabel}`;
 
     return (
       <div className={`${styles.contactInfo} col-sm-10`}>
         {this.renderOptionButtons()}
-        <h3>{this.props.contact.get('name')}</h3>
+        <h3>{contact.get('name')}</h3>
         <p className={styles.stats}>
-          Contacted { this.props.contact.get('lastContacted').format('MMM D, YYYY') }<br />
+          { lastContactedDescription }<br />
           Contact every { numberOfDaysLabel }<br />
           <Button className={styles.justContacted} bsSize="small">
             <Glyphicon glyph="ok" /> Just contacted!
           </Button>
         </p>
         <p>
-          <span>{this.props.contact.get('email') || 'hello@hellothere.com'}</span> | <span>{this.props.contact.get('phone') || '(555) 555 5555'}</span>
+          <span>{contact.get('email') || 'hello@hellothere.com'}</span> | <span>{contact.get('phone') || '(555) 555 5555'}</span>
         </p>
       </div>
     );
   }
 
   renderOptionButtons() {
+    const { contact } = this.props;
     return (
       <div className={`${styles.buttonGroup} pull-right`}>
         <Button className={styles.btnEdit} onClick={(e) => this.onClickEdit(e)}>
@@ -132,7 +140,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
         </Button>
         <Button
           className={styles.btnDelete}
-          onClick={() => this.props.requestContactDeletion(this.props.contact.get('id'))}
+          onClick={() => this.props.requestContactDeletion(contact.get('id'))}
         >
           <Glyphicon glyph="trash" /> Delete
         </Button>
@@ -141,6 +149,16 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   render() {
+    const { contact } = this.props;
+    const initialValues = {
+      name: contact.get('name'),
+      email: contact.get('email'),
+      phone: contact.get('phone'),
+      lastContacted: moment(contact.get('lastContacted')).format('YYYY-MM-DD'),
+      contactFrequency: contact.get('contactFrequency'),
+    };
+//    initialValues.lastContacted = moment(initialValues.lastContacted);
+
     return (
       <Panel className={styles.contactCard}>
         <div className="container-fluid">
@@ -153,7 +171,8 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
                 <EditContact
                   onCancelClick={() => this.onClickCancelEdit()}
                   onSubmit={(values) => this.handleEditSubmit(values)}
-                  form={`EditContactForm_${this.props.contact.get('id')}`}
+                  form={`EditContactForm_${contact.get('id')}`}
+                  initialValues={initialValues}
                 /> :
                 this.renderContactDetails()
             }

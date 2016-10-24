@@ -20,7 +20,9 @@ export function markContactContacted(contactId, lastContactedParam = getToday())
 
 export function requestUpdateContact(contactId, formValues) {
   const values = formValues.toJS();
-
+  values.lastContacted = values.lastContacted ?
+    moment(values.lastContacted).format() :
+    values.lastContacted;
 
   return {
     type: REQUEST_UPDATE_CONTACT,
