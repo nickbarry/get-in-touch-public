@@ -6,9 +6,13 @@ const contacts = {
       .then((fetchedContacts) => res.send(fetchedContacts));
   },
   update(req, res) {
-    ContactsAPI.update(req.params.contactId, req.body)
-      .then(() => res.status(204).send())
-      .catch((error) => res.status(500).send({ error }));
+    const response = ContactsAPI.update(req.params.contactId, req.body);
+    if (response.error) {
+      res.status(400).send(response);
+    } else {
+      response.then(() => res.status(204).send())
+        .catch((error) => res.status(500).send({ error }));
+    }
   },
   delete(req, res) {
     ContactsAPI.delete(req.params.contactId)
