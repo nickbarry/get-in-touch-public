@@ -1,3 +1,9 @@
+.removeBtn {
+  float: right;
+  margin-right: 20px;
+  color: grey;
+  cursor: pointer;
+}
 .modalHeader {
   padding-left: 5%;
   margin-bottom: 30px;

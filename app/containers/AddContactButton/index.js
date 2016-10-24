@@ -2,34 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styles from './styles.css';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Glyphicon } from 'react-bootstrap';
 import AddContactForm from './AddContactForm';
 import { requestAddContact } from './actions';
 
-const modalStyle = {
-  overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-  },
-  content: {
-    position: 'absolute',
-    top: '40px',
-    left: '40px',
-    right: '40px',
-    bottom: '40px',
-    border: '1px solid #ccc',
-    background: '#4286f4',
-    overflow: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    borderRadius: '0px',
-    outline: 'none',
-    padding: '20px',
-  }
-}
 export class AddContactButton extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -57,9 +33,13 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
         <Modal
           show={this.state.showModal}
           onHide={this.close}
-          style={modalStyle}
         >
           <div className={styles.modalHeader}>
+            <Glyphicon
+              className={styles.removeBtn}
+              glyph="remove"
+              onClick={this.close}
+            />
             <h1>Add a contact</h1>
             <h4>Fill out the form below with the new contact information</h4>
           </div>
@@ -76,6 +56,10 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
     );
   }
 }
+
+AddContactButton.propTypes = {
+  requestAddContact: React.PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   return { state };
