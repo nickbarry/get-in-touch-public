@@ -1,9 +1,3 @@
-/*
- *
- * ContactCard constants
- *
- */
-
 // For requesting contacts from the server
 export const REQUEST_CONTACT_DATA = 'app/Dashboard/REQUEST_CONTACT_DATA';
 export const CONTACT_FETCH_SUCCEEDED = 'app/Dashboard/CONTACT_FETCH_SUCCEEDED';

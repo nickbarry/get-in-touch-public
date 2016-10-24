@@ -1,7 +1,7 @@
 const db = require('./init');
 const knex = db.knex;
 const bookshelf = db.bookshelf;
-
+// const bodyParser = require('body-parser');
 
 // Contacts table schema
 knex.schema.createTableIfNotExists('contacts', (table) => {
@@ -27,12 +27,15 @@ const ContactModel = bookshelf.Model.extend({
 
 // Contacts API
 const ContactsAPI = {
-  fetch: function() {
+  fetch() {
     return ContactModel.fetchAll()
       .then((contacts) => contacts.toJSON());
   },
-  delete: function(userId) {
-    return (new ContactModel({ id: userId})).destroy();
+  delete(userId) {
+    return (new ContactModel({ id: userId })).destroy();
+  },
+  add(newContact) {
+    return (new ContactModel(newContact)).save();
   },
 };
 

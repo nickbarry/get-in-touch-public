@@ -1,9 +1,3 @@
-/*
- *
- * ContactCard reducer
- *
- */
-
 import { fromJS } from 'immutable';
 import {
   MARK_CONTACT_CONTACTED,
@@ -12,7 +6,7 @@ import {
 } from './constants';
 import moment from 'moment';
 
-const INITIAL_STATE = fromJS([]);
+const initialState = fromJS([]);
 
 function convertDatesToMoment(contact) {
   const updatedContact = Object.assign({}, contact);
@@ -39,7 +33,7 @@ function updateLastContactedDate(state, action) {
   });
 }
 
-function contactsReducer(state = INITIAL_STATE, action) {
+function contactsReducer(state = initialState, action) {
   switch (action.type) {
     case MARK_CONTACT_CONTACTED:
       return updateLastContactedDate(state, action);

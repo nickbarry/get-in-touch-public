@@ -10,7 +10,6 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
     // When the component is loading, we request the contacts from the server
     this.props.requestContactData();
   }
-
   render() {
     // Determine which contacts are due or overdue today
     const NOW = new Date();

@@ -1,15 +1,9 @@
-/*
- *
- * AddContactButton actions
- *
- */
+import { REQUEST_ADD_CONTACT } from './constants';
 
-import {
-  DEFAULT_ACTION,
-} from './constants';
-
-export function defaultAction() {
+export function requestAddContact(newContactValues) {
+  const jsContact = newContactValues.toJS();
   return {
-    type: DEFAULT_ACTION,
+    type: REQUEST_ADD_CONTACT,
+    values: jsContact,
   };
 }
