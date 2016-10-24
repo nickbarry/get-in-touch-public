@@ -1,23 +1,50 @@
+'use strict'; // eslint-disable-line strict
+
 const db = require('./init');
 const knex = db.knex;
 const bookshelf = db.bookshelf;
 
+const contactsColumns = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  facebook: 'facebook',
+  twitter: 'twitter',
+  lastContacted: 'lastContacted',
+  contactFrequency: 'contactFrequency',
+  contactNext: 'contactNext',
+  notes: 'notes',
+};
 
 // Contacts table schema
 knex.schema.createTableIfNotExists('contacts', (table) => {
-  table.increments('id').primary();
-  table.string('name');
-  table.string('email');
-  table.string('phone');
-  table.string('facebook');
-  table.string('twitter');
-  table.string('lastContacted');
-  table.string('contactFrequency');
-  table.string('contactNext');
-  table.string('notes');
+  table.increments(contactsColumns.id).primary();
+  table.string(contactsColumns.name);
+  table.string(contactsColumns.email);
+  table.string(contactsColumns.phone);
+  table.string(contactsColumns.facebook);
+  table.string(contactsColumns.twitter);
+  table.string(contactsColumns.lastContacted);
+  table.string(contactsColumns.contactFrequency);
+  table.string(contactsColumns.contactNext);
+  table.string(contactsColumns.notes);
   table.timestamps();
 }).then(() => (undefined)); // We need to call .then to create the table, but don't need
 // to actually do anything in the callback.
+
+function findImproperKeys(columns, keyValues, noId) {
+  const keys = Object.keys(keyValues);
+  const improperKeys = [];
+  for (let i = 0; i < keys.length; i += 1) {
+    const keyNotFoundInColumns = columns[keys[i]] === undefined;
+    const improperUseOfId = keys[i] === 'id';
+    if (keyNotFoundInColumns || (noId && improperUseOfId)) {
+      improperKeys.push(keys[i]);
+    }
+  }
+  return improperKeys;
+}
 
 // Contacts model
 const ContactModel = bookshelf.Model.extend({
@@ -32,16 +59,18 @@ const ContactsAPI = {
       .then((contacts) => contacts.toJSON());
   },
   update(contactId, values) {
-    console.log('db/contacts.js:35: id, values', contactId, values);
+    const improperKeys = findImproperKeys(contactsColumns, values, true);
+    if (improperKeys.length) {
+      return {
+        error: `Error: Keys do not match column names. Improper key(s): ${improperKeys.join(', ')}`,
+      };
+    }
+
     return ContactModel.forge({ id: contactId })
       .save(values, {
         method: 'update',
         patch: true,
         require: true,
-      })
-      .then((contact) => {
-        console.log('Returned from Bookshelf: ', contact.get('name'));
-        return contact;
       });
   },
   delete(userId) {
