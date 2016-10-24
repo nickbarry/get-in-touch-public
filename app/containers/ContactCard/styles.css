@@ -94,7 +94,7 @@ textarea{
   background-color: #ccc;
 }
 .contactNowToggleButton:focus {
-  outline:0;
+  outline: 0;
   background-color: #eee;
 }
 

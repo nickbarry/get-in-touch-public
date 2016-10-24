@@ -3,7 +3,8 @@ export const REQUEST_CONTACT_DATA = 'app/Dashboard/REQUEST_CONTACT_DATA';
 export const CONTACT_FETCH_SUCCEEDED = 'app/Dashboard/CONTACT_FETCH_SUCCEEDED';
 export const CONTACT_FETCH_FAILED = 'app/Dashboard/CONTACT_FETCH_FAILED';
 
-// For a specific contact
+// Updating a contact
+export const REQUEST_UPDATE_CONTACT = 'app/ContactCard/REQUEST_UPDATE_CONTACT';
 export const MARK_CONTACT_CONTACTED = 'app/ContactCard/MARK_CONTACT_CONTACTED';
 
 // Deleting a contact
