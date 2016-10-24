@@ -208,6 +208,7 @@
   "dependencies": {
     "axios": "^0.15.0",
     "babel-polyfill": "6.13.0",
+    "body-parser": "^1.15.2",
     "bookshelf": "^0.10.2",
     "bootstrap-css-only": "3.3.6",
     "chalk": "1.1.3",

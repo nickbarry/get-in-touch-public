@@ -1,7 +1,7 @@
 const db = require('./init');
 const knex = db.knex;
 const bookshelf = db.bookshelf;
-
+// const bodyParser = require('body-parser');
 
 // Contacts table schema
 knex.schema.createTableIfNotExists('contacts', (table) => {
@@ -33,6 +33,9 @@ const ContactsAPI = {
   },
   delete(userId) {
     return (new ContactModel({ id: userId })).destroy();
+  },
+  add(newContact) {
+    return (new ContactModel(newContact)).save();
   },
 };
 
