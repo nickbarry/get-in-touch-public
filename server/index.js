@@ -9,9 +9,11 @@ const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const resolve = require('path').resolve;
 const app = express();
-const router = require('./routes');
 
-// Create routes for backend API
+// Create routes for backend API and set up appropriate middleware
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+const router = require('./routes');
 app.use(router);
 
 // In production we need to pass these values in instead of relying on webpack

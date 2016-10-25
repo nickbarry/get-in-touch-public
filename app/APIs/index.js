@@ -4,8 +4,11 @@ const server = {
   fetchAllContacts() {
     return axios.get('/api/contacts');
   },
-  deleteContact(userId) {
-    return axios.delete(`/api/contact/${userId}`);
+  updateContact(contactId, values) {
+    return axios.post(`/api/contact/${contactId}`, values);
+  },
+  deleteContact(contactId) {
+    return axios.delete(`/api/contact/${contactId}`);
   },
   addContact(newContactValues) {
     return axios.post('/api/contact', newContactValues);

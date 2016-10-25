@@ -2,6 +2,7 @@ import {
   REQUEST_UPDATE_CONTACT,
   MARK_CONTACT_CONTACTED,
   REQUEST_CONTACT_DELETION,
+  CANCEL_CONTACT_EDITING_APP_STATE,
 } from './constants';
 import moment from 'moment';
 
@@ -18,13 +19,17 @@ export function markContactContacted(contactId, lastContactedParam = getToday())
   };
 }
 
-export function requestUpdateContact(contactId, formValues) {
+export function requestUpdateContact(contactId, formValues, successCallback) {
   const values = formValues.toJS();
+  values.lastContacted = values.lastContacted ?
+    moment(values.lastContacted).format() :
+    values.lastContacted;
 
   return {
     type: REQUEST_UPDATE_CONTACT,
     contactId,
     values,
+    successCallback,
   };
 }
 
@@ -35,3 +40,10 @@ export function requestContactDeletion(contactId) {
   };
 }
 // The contactDeletionSuccessful action is fired by the saga
+
+export function cancelContactEditingAppState(contactId) {
+  return {
+    type: CANCEL_CONTACT_EDITING_APP_STATE,
+    contactId,
+  };
+}
