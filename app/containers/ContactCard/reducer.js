@@ -3,6 +3,7 @@ import {
   MARK_CONTACT_CONTACTED,
   CONTACT_FETCH_SUCCEEDED,
   CONTACT_DELETION_SUCCESSFUL,
+  UPDATE_CONTACT_SUCCESSFUL,
 } from './constants';
 import moment from 'moment';
 
@@ -24,6 +25,25 @@ function loadFetchedContactData(state, action) {
   return state.push(...(newContacts.map((contact) => fromJS(contact))));
 }
 
+function updateContact(state, action) {
+  // Discover the index of the contact we need to update
+  let indexOfContact = -1;
+  for (let i = 0, len = state.size; i < len; i++) { // eslist-disable-line no-plusplus
+    if (state.get(i).get('id') === action.contactId) {
+      indexOfContact = i;
+      break;
+    }
+  }
+
+  if (indexOfContact === -1) {
+    throw new Error(`Contact with id #${action.contactId} not found!`);
+  }
+
+  const contact = state.get(indexOfContact);
+
+  return state.set(indexOfContact, contact.merge(action.values));
+}
+
 function updateLastContactedDate(state, action) {
   return state.map((contact) => {
     // We only want to update the relevant contact
@@ -36,6 +56,8 @@ function updateLastContactedDate(state, action) {
 
 function contactsReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_CONTACT_SUCCESSFUL:
+      return updateContact(state, action);
     case MARK_CONTACT_CONTACTED:
       return updateLastContactedDate(state, action);
     case CONTACT_FETCH_SUCCEEDED:

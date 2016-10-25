@@ -9,6 +9,7 @@ import {
   CONTACT_DELETION_SUCCESSFUL,
   CONTACT_DELETION_FAILED,
 } from './constants';
+import moment from 'moment';
 
 function* updateContact(action) {
   try {
@@ -16,10 +17,15 @@ function* updateContact(action) {
     if (response.error) {
       throw new Error(response.error);
     }
+
+    action.successCallback();
+    const valuesForState = Object.assign({}, action.values, {
+      lastContacted: moment(action.values.lastContacted),
+    });
     yield put({
       type: UPDATE_CONTACT_SUCCESSFUL,
       contactId: action.contactId,
-      values: action.values,
+      values: valuesForState,
     });
   } catch (error) {
     yield put({ type: UPDATE_CONTACT_FAILED, contactId: action.contactId, error });

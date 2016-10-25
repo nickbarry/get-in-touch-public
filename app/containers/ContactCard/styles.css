@@ -128,6 +128,7 @@ textarea{
 }
 
 .formField input:not([type=submit]):not([type=file]) {
+  width: 100%;
   margin: 0;
   border: solid 1px #dcdcdc;
   border-radius: 8px;
@@ -142,4 +143,19 @@ textarea{
   box-shadow: 0 0 5px 1px #969696;
   -moz-box-shadow: 0 0 5px 1px #969696;
   -webkit-box-shadow: 0 0 5px 1px #969696;
+}
+
+.formControls {
+  margin: 20px 0;
+}
+
+.editCancelButton {
+  position: relative;
+  right: -30px;
+}
+.editSubmitButton {
+}
+
+.formErrorMessage {
+  color: red;
 }

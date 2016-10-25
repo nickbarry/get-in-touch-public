@@ -5,7 +5,7 @@ import styles from './styles.css';
 import avatar from './default-avatar.png';
 import { List, Map } from 'immutable';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
-import { requestUpdateContact, requestContactDeletion } from './actions';
+import { requestUpdateContact, requestContactDeletion, cancelContactEditingAppState } from './actions';
 import EditContact from './EditContact';
 import moment from 'moment';
 
@@ -64,17 +64,22 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     this.setState({ expanded: !this.state.expanded });
   }
 
-  onClickEdit(e) {
-    e.preventDefault();
+  onClickEdit() {
     this.setState({ editing: true });
+
+    // This cancels any notes about, for example, a previous failed attempt to update the contact
+    this.props.cancelContactEditingAppState(this.props.contact.get('id'));
   }
 
   onClickCancelEdit() {
     this.setState({ editing: false });
+
+    // This cancels any notes about, for example, a previous failed attempt to update the contact
+    this.props.cancelContactEditingAppState(this.props.contact.get('id'));
   }
 
   handleEditSubmit(values) {
-    this.props.requestUpdateContact(this.props.contact.get('id'), values);
+    this.props.requestUpdateContact(this.props.contact.get('id'), values, () => this.setState({ editing: false }));
   }
 
   renderComposePane() {
@@ -112,6 +117,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     const lastContactedDescription = lastContactedLabel === 'Invalid date' ?
       'Never contacted' :
       `Last contacted ${lastContactedLabel}`;
+    const contactDetails = [contact.get('email'), contact.get('phone')].filter((detail) => detail);
 
     return (
       <div className={`${styles.contactInfo} col-sm-10`}>
@@ -125,7 +131,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
           </Button>
         </p>
         <p>
-          <span>{contact.get('email') || 'hello@hellothere.com'}</span> | <span>{contact.get('phone') || '(555) 555 5555'}</span>
+          <span>{contactDetails.join(' | ')}</span>
         </p>
       </div>
     );
@@ -135,7 +141,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     const { contact } = this.props;
     return (
       <div className={`${styles.buttonGroup} pull-right`}>
-        <Button className={styles.btnEdit} onClick={(e) => this.onClickEdit(e)}>
+        <Button className={styles.btnEdit} onClick={() => this.onClickEdit()}>
           <Glyphicon glyph="pencil" /> Edit
         </Button>
         <Button
@@ -157,7 +163,6 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
       lastContacted: moment(contact.get('lastContacted')).format('YYYY-MM-DD'),
       contactFrequency: contact.get('contactFrequency'),
     };
-//    initialValues.lastContacted = moment(initialValues.lastContacted);
 
     return (
       <Panel className={styles.contactCard}>
@@ -173,6 +178,8 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
                   onSubmit={(values) => this.handleEditSubmit(values)}
                   form={`EditContactForm_${contact.get('id')}`}
                   initialValues={initialValues}
+                  appStatus={this.props.appStatus}
+                  contact={contact}
                 /> :
                 this.renderContactDetails()
             }
@@ -202,15 +209,18 @@ ContactCard.propTypes = {
   stories: React.PropTypes.object,
   requestUpdateContact: React.PropTypes.func,
   requestContactDeletion: React.PropTypes.func,
+  cancelContactEditingAppState: React.PropTypes.func,
+  appStatus: React.PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
   const stories = state.get('stories');
-  return { stories };
+  const appStatus = state.get('appStatus');
+  return { stories, appStatus };
 };
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ requestContactDeletion, requestUpdateContact }, dispatch);
+  return bindActionCreators({ requestContactDeletion, requestUpdateContact, cancelContactEditingAppState }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
