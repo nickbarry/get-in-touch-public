@@ -11,7 +11,6 @@ const initialState = fromJS([]);
 
 function convertDatesToMoment(contact) {
   const updatedContact = Object.assign({}, contact);
-  console.log('app/containers/ContactCard/reducer.js:19: contactNext; lastContacted: ', contact.contactNext, contact.lastContacted);
   updatedContact.contactNext = moment(contact.contactNext);
   updatedContact.lastContacted = moment(contact.lastContacted);
   return updatedContact;
@@ -28,7 +27,7 @@ function loadFetchedContactData(state, action) {
 function updateContact(state, action) {
   // Discover the index of the contact we need to update
   let indexOfContact = -1;
-  for (let i = 0, len = state.size; i < len; i++) { // eslist-disable-line no-plusplus
+  for (let i = 0, len = state.size; i < len; i++) { // eslint-disable-line no-plusplus
     if (state.get(i).get('id') === action.contactId) {
       indexOfContact = i;
       break;

@@ -59,7 +59,6 @@ const ContactsAPI = {
       .then((contacts) => contacts.toJSON());
   },
   update(contactId, values) {
-    console.log('db/contacts.js:62: contactId, values: ', contactId, values);
     const improperKeys = findImproperKeys(contactsColumns, values, true);
     if (improperKeys.length) {
       return {
