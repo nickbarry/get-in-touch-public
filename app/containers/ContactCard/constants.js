@@ -1,9 +1,3 @@
-/*
- *
- * ContactCard constants
- *
- */
-
 // For requesting contacts from the server
 export const REQUEST_CONTACT_DATA = 'app/Dashboard/REQUEST_CONTACT_DATA';
 export const CONTACT_FETCH_SUCCEEDED = 'app/Dashboard/CONTACT_FETCH_SUCCEEDED';
@@ -20,3 +14,5 @@ export const REQUEST_CONTACT_DELETION = 'app/ContactCard/REQUEST_CONTACT_DELETIO
 export const CONTACT_DELETION_SUCCESSFUL = 'app/ContactCard/CONTACT_DELETION_SUCCESSFUL';
 export const CONTACT_DELETION_FAILED = 'app/ContactCard/CONTACT_DELETION_FAILED';
 
+// Component state
+export const CANCEL_CONTACT_EDITING_APP_STATE = 'app/ContactCard/CANCEL_CONTACT_EDITING_APP_STATE';
