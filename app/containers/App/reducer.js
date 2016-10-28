@@ -12,20 +12,16 @@ const initialState = fromJS({
   stories: {},
 });
 
-function markContactAsUpdating(state, action, updatingStatus) {
-  return state.setIn(['contacts', action.contactId, 'updatingStatus'], updatingStatus);
-}
-
 function appStatusReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_UPDATE_CONTACT:
-      return markContactAsUpdating(state, action, true);
+      return state.setIn(['contacts', action.contactId, 'updatingStatus'], true);
     case UPDATE_CONTACT_SUCCESSFUL:
-      return markContactAsUpdating(state, action, false);
+      return state.setIn(['contacts', action.contactId, 'updatingStatus'], false);
     case UPDATE_CONTACT_FAILED:
-      return markContactAsUpdating(state, action, `Failed: ${action.error}`);
+      return state.setIn(['contacts', action.contactId, 'updatingStatus'], `Failed: ${action.error}`);
     case CANCEL_CONTACT_EDITING_APP_STATE:
-      return markContactAsUpdating(state, action, false);
+      return state.setIn(['contacts', action.contactId, 'updatingStatus'], false);
     default:
       return state;
   }

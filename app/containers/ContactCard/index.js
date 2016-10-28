@@ -122,7 +122,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     return (
       <div className={`${styles.contactInfo} col-sm-10`}>
         {this.renderOptionButtons()}
-        <h3>{contact.get('name')}</h3>
+        <h3>{contact.get('name') || '[No contact name]'}</h3>
         <p className={styles.stats}>
           { lastContactedDescription }<br />
           Contact every { numberOfDaysLabel }<br />
