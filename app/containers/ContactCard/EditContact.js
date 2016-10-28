@@ -2,6 +2,42 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { Button, Glyphicon } from 'react-bootstrap';
 import styles from './styles.css';
+import {
+  contactName, contactNameWarning,
+  contactEmail,
+  contactPhone,
+  contactLastContacted,
+  contactContactFrequency, contactContactFrequencyWarning,
+} from '../../utils/validation';
+
+const validate = (values) => ({
+  name: contactName(values.get('name')),
+  email: contactEmail(values.get('email')),
+  phone: contactPhone(values.get('phone')),
+  lastContacted: contactLastContacted(values.get('lastContacted')),
+  contactFrequency: contactContactFrequency(values.get('contactFrequency')),
+});
+
+const warn = (values) => ({
+  contactName: contactNameWarning(values.get('name')),
+  contactFrequency: contactContactFrequencyWarning(values.get('contactFrequency')),
+});
+
+const renderField = ({ input, name, label, type, meta: { touched, error, warning } }) => ( // eslint-disable-line react/prop-types
+  <div className={`row ${styles.formFieldRow}`}>
+    <div className={`col-sm-3 ${styles.formFieldLabelDiv}`}>
+      <label htmlFor={name}>{label}:</label>
+    </div>
+    <div className={'col-sm-9'}>
+      <input className={`${styles.formField}${(touched && error) ? ` ${styles.formFieldError}` : ''}`} {...input} placeholder={label} type={type} />
+      {
+        touched &&
+        ((error && <div className={styles.formErrorMessage}>{error}</div>) ||
+          (warning && <div className={styles.formWarningMessage}>{warning}</div>))
+      }
+    </div>
+  </div>
+);
 
 class ContactForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -16,46 +52,11 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className="col-sm-10">
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className={`col-sm-3 ${styles.formFieldLabel}`}>
-              <label htmlFor="name">Name:</label>
-            </div>
-            <div className={`col-sm-9 ${styles.formField}`}>
-              <Field name="name" component="input" type="text" />
-            </div>
-          </div>
-          <div className="row">
-            <div className={`col-sm-3 ${styles.formFieldLabel}`}>
-              <label htmlFor="email">Email:</label>
-            </div>
-            <div className={`col-sm-9 ${styles.formField}`}>
-              <Field name="email" component="input" type="email" />
-            </div>
-          </div>
-          <div className="row">
-            <div className={`col-sm-3 ${styles.formFieldLabel}`}>
-              <label htmlFor="phone">Phone:</label>
-            </div>
-            <div className={`col-sm-9 ${styles.formField}`}>
-              <Field name="phone" component="input" type="tel" />
-            </div>
-          </div>
-          <div className="row">
-            <div className={`col-sm-3 ${styles.formFieldLabel}`}>
-              <label htmlFor="lastContacted">Last Contacted:</label>
-            </div>
-            <div className={`col-sm-9 ${styles.formField}`}>
-              <Field name="lastContacted" component="input" type="date" />
-            </div>
-          </div>
-          <div className="row">
-            <div className={`col-sm-3 ${styles.formFieldLabel}`}>
-              <label htmlFor="contactFrequency">Contact frequency:</label>
-            </div>
-            <div className={`col-sm-9 ${styles.formField}`}>
-              <Field name="contactFrequency" component="input" type="number" />
-            </div>
-          </div>
+          <Field name="name" label="Name" type="text" component={renderField} />
+          <Field name="email" label="Email" type="email" component={renderField} />
+          <Field name="phone" label="Phone" type="text" component={renderField} />
+          <Field name="lastContacted" label="Last Contacted" type="date" component={renderField} />
+          <Field name="contactFrequency" label="Contact Frequency" type="text" component={renderField} />
           <div className="row">
             <div className="col-sm-9 col-sm-offset-3">
               <span className={styles.formErrorMessage}>
@@ -97,5 +98,6 @@ ContactForm.propTypes = {
 };
 
 export default reduxForm({
-  fields: ['name', 'email'], // todo: Is this property actually necessary for any reason?
+  validate,
+  warn,
 })(ContactForm);
