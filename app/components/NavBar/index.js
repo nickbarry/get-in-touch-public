@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 import { Link } from 'react-router';
+import SignIn from '../../containers/SignIn';
 
 export default class Navbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -11,6 +12,7 @@ export default class Navbar extends React.Component { // eslint-disable-line rea
           <li><Link to="/profile">Profile</Link></li>
           <li><Link to="/contacts">Connections</Link></li>
         </ul>
+        <SignIn />
       </div>
     );
   }
