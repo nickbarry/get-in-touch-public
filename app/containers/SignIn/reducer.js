@@ -1,14 +1,21 @@
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
+  CHANGE_USER,
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  currentUser: 0,
+  users: [
+    { userId: 0, name: 'Nico Greenarry' },
+    { userId: 1, name: 'George Weiler' },
+    { userId: 2, name: 'Elyse Greenarry' },
+  ],
+});
 
 function signInReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case CHANGE_USER:
+      return state.set('currentUser', action.userId);
     default:
       return state;
   }

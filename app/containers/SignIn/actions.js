@@ -1,9 +1,10 @@
 import {
-  DEFAULT_ACTION,
+  CHANGE_USER,
 } from './constants';
 
-export function defaultAction() {
+export function changeUser(userId) {
   return {
-    type: DEFAULT_ACTION,
+    type: CHANGE_USER,
+    userId,
   };
 }

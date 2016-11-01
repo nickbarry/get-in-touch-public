@@ -1,1 +1,1 @@
-export const DEFAULT_ACTION = 'app/SignIn/DEFAULT_ACTION';
+export const CHANGE_USER = 'app/SignIn/CHANGE_USER';
