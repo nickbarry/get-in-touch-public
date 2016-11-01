@@ -18,7 +18,7 @@ const dummyContactData = [
     contactNext: new moment('2016-07-13'), // eslint-disable-line new-cap
     notes: 'Python coder. Started the High Impact dodgeball league. Works a lot on improving/automating people\'s ' +
     'workflows, e.g. deployment workflows.',
-  },
+  }p
   {
     name: 'Catrina Fuentes',
     userId: 0,
