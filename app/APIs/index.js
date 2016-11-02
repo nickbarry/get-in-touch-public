@@ -1,16 +1,17 @@
 import axios from 'axios';
 
 const server = {
-  fetchAllContacts() {
-    return axios.get('/api/contacts');
+  fetchAllContacts(userId) { // todo: update backend to expect new userId data
+    console.log('userId from APIs: ', userId);
+    return axios.get(`/api/contacts?userId=${userId}`);
   },
-  updateContact(contactId, values) {
-    return axios.post(`/api/contact/${contactId}`, values);
+  updateContact(contactId, userId, values) { // todo: update backend to expect new userId data
+    return axios.post(`/api/contact/${contactId}`, { userId, values });
   },
-  deleteContact(contactId) {
-    return axios.delete(`/api/contact/${contactId}`);
+  deleteContact(contactId, userId) { // todo: update backend to expect new userId data
+    return axios.delete(`/api/contact/${contactId}?userId=${userId}`);
   },
-  addContact(newContactValues) {
+  addContact(newContactValues) { // todo: update backend to expect new userId data
     return axios.post('/api/contact', newContactValues);
   },
 };
