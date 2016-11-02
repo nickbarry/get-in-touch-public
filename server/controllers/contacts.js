@@ -2,6 +2,7 @@ const ContactsAPI = require('../../db/contacts');
 
 const contacts = {
   fetch(req, res) {
+    console.log('request for contacts; url: ', req.url);
     ContactsAPI.fetch()
       .then((fetchedContacts) => res.send(fetchedContacts));
   },

@@ -6,9 +6,9 @@ import {
 } from '../ContactCard/constants';
 
 // Will be fired on each REQUEST_CONTACT_DATA action
-function* fetchContacts() {
+function* fetchContacts(action) {
   try {
-    const response = yield call(APIs.server.fetchAllContacts, []);
+    const response = yield call(APIs.server.fetchAllContacts, action.userId);
     yield put({ type: CONTACT_FETCH_SUCCEEDED, contacts: response.data });
   } catch (error) {
     yield put({ type: CONTACT_FETCH_FAILED, error });

@@ -11,37 +11,36 @@ import {
 } from './constants';
 import moment from 'moment';
 
-function* updateContact(action) {
+function* updateContact({ contactId, userId, values, successCallback }) {
   try {
-    const response = yield call(APIs.server.updateContact, action.contactId, action.values);
+    const response = yield call(APIs.server.updateContact, contactId, userId, values);
     if (response.error) {
       throw new Error(response.error);
     }
 
-    action.successCallback();
-    const valuesForState = Object.assign({}, action.values, {
-      lastContacted: moment(action.values.lastContacted),
+    successCallback();
+    const valuesForState = Object.assign({}, values, {
+      lastContacted: moment(values.lastContacted),
     });
     yield put({
       type: UPDATE_CONTACT_SUCCESSFUL,
-      contactId: action.contactId,
+      contactId,
       values: valuesForState,
     });
   } catch (error) {
-    yield put({ type: UPDATE_CONTACT_FAILED, contactId: action.contactId, error });
+    yield put({ type: UPDATE_CONTACT_FAILED, contactId, error });
   }
 }
 
-function* deleteContact(action) {
+function* deleteContact({ contactId, userId }) {
   try {
-    const response = yield call(APIs.server.deleteContact, action.contactId);
+    const response = yield call(APIs.server.deleteContact, contactId, userId);
     if (response.error) {
       throw new Error(response.error);
     }
-    // console.log('server response: ', response);
-    yield put({ type: CONTACT_DELETION_SUCCESSFUL, contactId: action.contactId });
+    yield put({ type: CONTACT_DELETION_SUCCESSFUL, contactId });
   } catch (error) {
-    yield put({ type: CONTACT_DELETION_FAILED, contactId: action.contactId, error });
+    yield put({ type: CONTACT_DELETION_FAILED, contactId, error });
   }
 }
 

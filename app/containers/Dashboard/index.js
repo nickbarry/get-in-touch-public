@@ -8,7 +8,8 @@ import styles from './styles.css';
 class Dashboard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     // When the component is loading, we request the contacts from the server
-    this.props.requestContactData();
+    console.log('app/containers/Dashboard/index.js:11; currentUser: ', this.props.signIn.get('currentUser'));
+    this.props.requestContactData(this.props.signIn.get('currentUser'));
   }
 
   render() {
@@ -34,12 +35,13 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
 Dashboard.propTypes = {
   requestContactData: React.PropTypes.func,
   contacts: React.PropTypes.object,
+  signIn: React.PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  const contacts = state.get('contacts');
-  return { contacts };
-}
+const mapStateToProps = (state) => ({
+  contacts: state.get('contacts'),
+  signIn: state.get('signIn'),
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ requestContactData }, dispatch);
