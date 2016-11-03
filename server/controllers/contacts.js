@@ -1,9 +1,8 @@
-const ContactsAPI = require('../../db/contacts');
+const { ContactsAPI } = require('../../db/API');
 
 const contacts = {
   fetch(req, res) {
-    console.log('request for contacts; url: ', req.url);
-    ContactsAPI.fetch()
+    ContactsAPI.fetch(+req.query.userId)
       .then((fetchedContacts) => res.send(fetchedContacts));
   },
   update(req, res) {

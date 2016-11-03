@@ -4,10 +4,9 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  currentUser: 0,
+  currentUser: 1,
   users: [
-    { userId: 0, name: 'Nico Greenarry' },
-    { userId: 1, name: 'George Weiler' },
+    { userId: 1, name: 'Nico Greenarry' },
     { userId: 2, name: 'Elyse Greenarry' },
   ],
 });
