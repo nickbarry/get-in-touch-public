@@ -4,7 +4,7 @@ const moment = require('moment');
 const dummyContactData = [
   {
     name: 'Elyse Greenarry',
-    userId: 0,
+    userId: 1,
     lastContacted: new moment('2016-07-01').hours(0).minutes(0).seconds(0).milliseconds(0), // eslint-disable-line new-cap
     contactFrequency: 1,
     contactNext: new moment('2016-07-02'), // eslint-disable-line new-cap
@@ -12,16 +12,16 @@ const dummyContactData = [
   },
   {
     name: 'Chris Brenton',
-    userId: 0,
+    userId: 1,
     lastContacted: new moment('2016-06-30'), // eslint-disable-line new-cap
     contactFrequency: 14,
     contactNext: new moment('2016-07-13'), // eslint-disable-line new-cap
     notes: 'Python coder. Started the High Impact dodgeball league. Works a lot on improving/automating people\'s ' +
     'workflows, e.g. deployment workflows.',
-  }p
+  },
   {
     name: 'Catrina Fuentes',
-    userId: 0,
+    userId: 1,
     lastContacted: new moment('2015-02-20'), // eslint-disable-line new-cap
     contactFrequency: 180,
     contactNext: new moment('2016-10-20'), // eslint-disable-line new-cap
@@ -30,7 +30,7 @@ const dummyContactData = [
   },
   {
     name: 'Nick Winter',
-    userId: 0,
+    userId: 1,
     lastContacted: new moment('2015-01-30'), // eslint-disable-line new-cap
     contactFrequency: 365,
     contactNext: new moment('2016-01-30'), // eslint-disable-line new-cap
@@ -38,7 +38,7 @@ const dummyContactData = [
   },
   {
     name: 'Reed Cureton',
-    userId: 0,
+    userId: 1,
     lastContacted: new moment('2016-10-10').hours(0).minutes(0).seconds(0).milliseconds(0), // eslint-disable-line new-cap
     contactFrequency: 3,
     contactNext: (new moment('2016-10-10')).add(3, 'days'), // eslint-disable-line new-cap
@@ -46,17 +46,30 @@ const dummyContactData = [
   },
 ];
 
-//dummyContactData.forEach(c => {
-//  const contact = new ContactModel();
-//  contact.set('name', c.name);
-//  contact.set('contactFrequency', c.contactFrequency);
-//  contact.set('contactNext', c.contactNext.format());
-//  contact.set('lastContacted', c.lastContacted.format());
-//  contact.set('notes', c.notes);
+// dummyContactData.forEach(c => {
+//   const contact = new ContactModel();
+//   contact.set('name', c.name);
+//   contact.set('contactFrequency', c.contactFrequency);
+//   contact.set('contactNext', c.contactNext.format());
+//   contact.set('lastContacted', c.lastContacted.format());
+//   contact.set('notes', c.notes);
 //
-//  contact.save()
-//    .then(u => console.log('User saved: ', `${u.get('id')} ${u.get('name')}`))
-//    .catch(e => console.log(e));
-//});
+//   contact.save()
+//     .then(u => console.log('User saved: ', `${u.get('id')} ${u.get('name')}`))
+//     .catch(e => console.log(e));
+// });
 // </editor-fold>
 
+// Inserting with SQL:
+/*
+ INSERT INTO [table]
+ ([column1], [column2], ... )
+ VALUES
+ ([expression1], [expression2], ... );
+
+ INSERT INTO users
+ (fullName, email, password)
+ VALUES
+ ("Nico Greenarry", "notmyrealemail@gmail.com", "notmyrealpassword"),
+ ("Elyse Greenarry", "notmyrealemail@gmail.com", "notmyrealpassword");
+ */
