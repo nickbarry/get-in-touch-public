@@ -15,7 +15,11 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     // Determine which contacts are due or overdue today
     const NOW = new Date();
-    const contactsDueToday = this.props.contacts.filter((contact) => contact.get('contactNext').isBefore(NOW)); // esline-disable react/prop-types
+    const contactsDueToday = this.props.contacts
+      .filter((contact) => ( // The userId condition is only necessary while we're faking multi-user sign-in
+        (contact.get('userId') === +this.props.signIn.get('currentUser')) &&
+        contact.get('contactNext').isBefore(NOW)
+      ));
 
     return (
       <div>
