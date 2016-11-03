@@ -8,13 +8,18 @@ import styles from './styles.css';
 class Dashboard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     // When the component is loading, we request the contacts from the server
-    this.props.requestContactData();
+    console.log('app/containers/Dashboard/index.js:11; currentUser: ', this.props.signIn.get('currentUser'));
+    this.props.requestContactData(this.props.signIn.get('currentUser'));
   }
 
   render() {
     // Determine which contacts are due or overdue today
     const NOW = new Date();
-    const contactsDueToday = this.props.contacts.filter((contact) => contact.get('contactNext').isBefore(NOW)); // esline-disable react/prop-types
+    const contactsDueToday = this.props.contacts
+      .filter((contact) => ( // The userId condition is only necessary while we're faking multi-user sign-in
+        (contact.get('userId') === +this.props.signIn.get('currentUser')) &&
+        contact.get('contactNext').isBefore(NOW)
+      ));
 
     return (
       <div>
@@ -34,12 +39,13 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
 Dashboard.propTypes = {
   requestContactData: React.PropTypes.func,
   contacts: React.PropTypes.object,
+  signIn: React.PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  const contacts = state.get('contacts');
-  return { contacts };
-}
+const mapStateToProps = (state) => ({
+  contacts: state.get('contacts'),
+  signIn: state.get('signIn'),
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ requestContactData }, dispatch);

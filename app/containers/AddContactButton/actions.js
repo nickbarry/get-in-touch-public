@@ -1,10 +1,9 @@
 import { REQUEST_ADD_CONTACT } from './constants';
 
-export function requestAddContact(newContactValues) {
+export function requestAddContact(userId, newContactValues) {
   const jsContact = newContactValues.toJS();
 
-  // Hard code in Nico's userId. Soon we'll need to detect the correct userId and use that
-  jsContact.userId = 0;
+  jsContact.userId = userId;
 
   return {
     type: REQUEST_ADD_CONTACT,

@@ -1,46 +1,13 @@
-'use strict'; // eslint-disable-line strict
-
-const db = require('./init');
-const knex = db.knex;
-const bookshelf = db.bookshelf;
+const { bookshelf, contactsColumns } = require('./init');
 const validation = require('../server/utils/validation');
-
-const contactsColumns = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  phone: 'phone',
-  facebook: 'facebook',
-  twitter: 'twitter',
-  lastContacted: 'lastContacted',
-  contactFrequency: 'contactFrequency',
-  contactNext: 'contactNext',
-  notes: 'notes',
-};
-
-// Contacts table schema
-knex.schema.createTableIfNotExists('contacts', (table) => {
-  table.increments(contactsColumns.id).primary();
-  table.string(contactsColumns.name);
-  table.string(contactsColumns.email);
-  table.string(contactsColumns.phone);
-  table.string(contactsColumns.facebook);
-  table.string(contactsColumns.twitter);
-  table.string(contactsColumns.lastContacted);
-  table.string(contactsColumns.contactFrequency);
-  table.string(contactsColumns.contactNext);
-  table.string(contactsColumns.notes);
-  table.timestamps();
-}).then(() => (undefined)); // We need to call .then to create the table, but don't need
-// to actually do anything in the callback.
 
 function findImproperKeys(columns, keyValues, noId) {
   const keys = Object.keys(keyValues);
   const improperKeys = [];
   for (let i = 0; i < keys.length; i += 1) {
     const keyNotFoundInColumns = columns[keys[i]] === undefined;
-    const improperUseOfId = keys[i] === 'id';
-    if (keyNotFoundInColumns || (noId && improperUseOfId)) {
+    const useOfId = keys[i] === 'id';
+    if (keyNotFoundInColumns || (noId && useOfId)) {
       improperKeys.push(keys[i]);
     }
   }
@@ -57,19 +24,45 @@ const validateContactUpdateInputs = (values, validationFunctions) => (
   ].filter((el) => el).join('. ') || null
 );
 
+// Users model
+const UserModel = bookshelf.Model.extend({
+  tableName: 'users',
+  hasTimeStamps: true,
+  contacts() {
+    // ContactsModel isn't yet defined, but it will be by the time this function is called
+    return this.hasMany(ContactsModel, 'userId'); // eslint-disable-line no-undef
+  },
+});
+
+// Users API
+const UsersAPI = {
+  checkPassword(email, password) {
+
+  },
+  add(email, password) {
+
+  },
+};
+
 // Contacts model
 const ContactModel = bookshelf.Model.extend({
   tableName: 'contacts',
   hasTimestamps: true,
+  user() {
+    return this.belongsTo(UserModel, 'userId');
+  },
 });
 
 // Contacts API
 const ContactsAPI = {
-  fetch() {
-    return ContactModel.fetchAll()
+  fetch(userId) {
+    // todo: Ultimately we'll need to request just the appropriate contacts based on
+    // which user is signed in. But right now, since we're faking a log-in system,
+    // we'll just request all of them, and let the frontend decide which to display.
+    return new ContactModel({}).fetchAll()
       .then((contacts) => contacts.toJSON());
   },
-  update(contactId, values) {
+  update(contactId, userId, values) {
     const improperKeys = findImproperKeys(contactsColumns, values, true);
     if (improperKeys.length) {
       return {
@@ -99,4 +92,7 @@ const ContactsAPI = {
   },
 };
 
-module.exports = ContactsAPI;
+module.exports = {
+  ContactsAPI,
+  UsersAPI,
+};

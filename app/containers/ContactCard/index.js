@@ -41,7 +41,7 @@ function createOptionGroups(storiesGroupedByTopic) {
       <optgroup key={i} label={topicGroup.get('topic')}>
         {
           topicGroup.get('stories')
-            .map((story, i) => ( // eslint-disable-line
+            .map((story, i) => (
               <option key={i} value={story.get('id')}>{story.get('title')}</option>
             ))
             .toArray()
@@ -79,10 +79,12 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   handleEditSubmit(values) {
-    this.props.requestUpdateContact(this.props.contact.get('id'), values, () => this.setState({ editing: false }));
+    const { contact, signIn } = this.props;
+    this.props.requestUpdateContact(contact.get('id'), signIn.get('currentUser'), values, () => this.setState({ editing: false }));
   }
 
   renderComposePane() {
+    // todo: Break this into its own container, probably
     const { contact } = this.props;
     const storiesGroupedByTopic = groupStoriesByTopic(this.props.stories);
 
@@ -138,7 +140,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   renderOptionButtons() {
-    const { contact } = this.props;
+    const { requestContactDeletion, contact, signIn } = this.props; // eslint-disable-line no-shadow
     return (
       <div className={`${styles.buttonGroup} pull-right`}>
         <Button className={styles.btnEdit} onClick={() => this.onClickEdit()}>
@@ -146,7 +148,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
         </Button>
         <Button
           className={styles.btnDelete}
-          onClick={() => this.props.requestContactDeletion(contact.get('id'))}
+          onClick={() => requestContactDeletion(contact.get('id'), signIn.get('currentUser'))}
         >
           <Glyphicon glyph="trash" /> Delete
         </Button>
@@ -211,13 +213,14 @@ ContactCard.propTypes = {
   requestContactDeletion: React.PropTypes.func,
   cancelContactEditingAppState: React.PropTypes.func,
   appStatus: React.PropTypes.object,
+  signIn: React.PropTypes.object,
 };
 
-const mapStateToProps = (state) => {
-  const stories = state.get('stories');
-  const appStatus = state.get('appStatus');
-  return { stories, appStatus };
-};
+const mapStateToProps = (state) => ({
+  stories: state.get('stories'),
+  appStatus: state.get('appStatus'),
+  signIn: state.get('signIn'),
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ requestContactDeletion, requestUpdateContact, cancelContactEditingAppState }, dispatch);

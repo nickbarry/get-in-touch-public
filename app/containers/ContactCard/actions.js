@@ -19,7 +19,7 @@ export function markContactContacted(contactId, lastContactedParam = getToday())
   };
 }
 
-export function requestUpdateContact(contactId, formValues, successCallback) {
+export function requestUpdateContact(contactId, userId, formValues, successCallback) {
   const values = formValues.toJS();
   values.lastContacted = values.lastContacted ?
     moment(values.lastContacted).format() :
@@ -28,15 +28,17 @@ export function requestUpdateContact(contactId, formValues, successCallback) {
   return {
     type: REQUEST_UPDATE_CONTACT,
     contactId,
+    userId,
     values,
     successCallback,
   };
 }
 
-export function requestContactDeletion(contactId) {
+export function requestContactDeletion(contactId, userId) {
   return {
     type: REQUEST_CONTACT_DELETION,
     contactId,
+    userId,
   };
 }
 // The contactDeletionSuccessful action is fired by the saga

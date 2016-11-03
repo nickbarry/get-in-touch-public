@@ -1,12 +1,12 @@
-const ContactsAPI = require('../../db/contacts');
+const { ContactsAPI } = require('../../db/API');
 
 const contacts = {
   fetch(req, res) {
-    ContactsAPI.fetch()
+    ContactsAPI.fetch(+req.query.userId)
       .then((fetchedContacts) => res.send(fetchedContacts));
   },
   update(req, res) {
-    const response = ContactsAPI.update(req.params.contactId, req.body);
+    const response = ContactsAPI.update(req.params.contactId, req.body.userId, req.body.values);
     if (response.getInTouchError) {
       res.status(400).send(response.getInTouchError);
     } else {

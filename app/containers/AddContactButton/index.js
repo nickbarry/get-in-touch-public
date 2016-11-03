@@ -21,6 +21,7 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
   }
 
   render() {
+    const { requestAddContact, signIn } = this.props; // eslint-disable-line no-shadow
     return (
       <div className={styles.addContactButton}>
         <Button
@@ -46,7 +47,7 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
           <div className={styles.modalContent}>
             <AddContactForm
               onSubmit={(values) => {
-                this.props.requestAddContact(values);
+                requestAddContact(signIn.get('currentUser'), values);
                 this.close();
               }}
             />
@@ -59,10 +60,13 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
 
 AddContactButton.propTypes = {
   requestAddContact: React.PropTypes.func.isRequired,
+  signIn: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
-  return { state };
+  return {
+    signIn: state.get('signIn'),
+  };
 }
 
 function mapDispatchToProps(dispatch) {

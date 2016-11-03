@@ -1,11 +1,6 @@
-/*
- *
- * {{properCase name }}
- *
- */
-
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 {{#if wantHeaders}}
 import Helmet from 'react-helmet';
 {{/if}}
@@ -43,14 +38,15 @@ export class {{ properCase name }} extends React.Component { // eslint-disable-l
 
 {{#if wantActionsAndReducer}}
 function mapStateToProps(state) {
-    return { state: state };
+  return { state: state };
 }
 {{/if}}
 
 function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
+  return bindActionCreators(
+    { /* list actions here */ },
+    dispatch
+  );
 }
 
 {{#if wantActionsAndReducer}}
