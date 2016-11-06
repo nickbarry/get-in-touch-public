@@ -1,15 +1,15 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import APIs from '../../APIs';
+import APIs from '../../../APIs';
 import {
   REQUEST_ADD_CONTACT,
   ADD_CONTACT_SUCCESS,
   ADD_CONTACT_FAILURE,
 } from './constants';
 
-function* addContact(action) {
+function* addContact(/* action */ { userId, values }) {
   try {
-    const response = yield call(APIs.server.addContact, action.values);
+    const response = yield call(APIs.server.addContact, userId, values);
     if (response.error) {
       throw new Error(response.error);
     }

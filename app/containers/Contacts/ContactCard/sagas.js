@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import APIs from '../../APIs';
+import APIs from '../../../APIs';
 import {
   REQUEST_UPDATE_CONTACT,
   UPDATE_CONTACT_SUCCESSFUL,
@@ -11,14 +11,14 @@ import {
 } from './constants';
 import moment from 'moment';
 
-function* updateContact({ contactId, userId, values, successCallback }) {
+function* updateContact(/* action */ { contactId, userId, values, successCb }) {
   try {
     const response = yield call(APIs.server.updateContact, contactId, userId, values);
     if (response.error) {
       throw new Error(response.error);
     }
 
-    successCallback();
+    successCb();
     const valuesForState = Object.assign({}, values, {
       lastContacted: moment(values.lastContacted),
     });

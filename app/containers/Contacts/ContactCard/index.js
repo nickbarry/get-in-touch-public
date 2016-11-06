@@ -6,7 +6,7 @@ import avatar from './default-avatar.png';
 import { List, Map } from 'immutable';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
 import { requestUpdateContact, requestContactDeletion, cancelContactEditingAppState } from './actions';
-import EditContact from './EditContact';
+import AddEditContactForm from '../AddEditContactForm';
 import moment from 'moment';
 
 function groupStoriesByTopic(stories) {
@@ -41,8 +41,8 @@ function createOptionGroups(storiesGroupedByTopic) {
       <optgroup key={i} label={topicGroup.get('topic')}>
         {
           topicGroup.get('stories')
-            .map((story, i) => (
-              <option key={i} value={story.get('id')}>{story.get('title')}</option>
+            .map((story, idx) => (
+              <option key={idx} value={story.get('id')}>{story.get('title')}</option>
             ))
             .toArray()
         }
@@ -80,7 +80,12 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
 
   handleEditSubmit(values) {
     const { contact, signIn } = this.props;
-    this.props.requestUpdateContact(contact.get('id'), signIn.get('currentUser'), values, () => this.setState({ editing: false }));
+    this.props.requestUpdateContact(
+      contact.get('id'),
+      signIn.get('currentUser'),
+      values,
+      (() => this.setState({ editing: false })) // success callback to be called by saga
+    );
   }
 
   renderComposePane() {
@@ -115,18 +120,18 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
     const numberOfDaysLabel = contactFrequency === 1 ?
       'day' :
       `${contactFrequency} days`;
-    const lastContactedLabel = contact.get('lastContacted').format('MMM D, YYYY');
-    const lastContactedDescription = lastContactedLabel === 'Invalid date' ?
-      'Never contacted' :
-      `Last contacted ${lastContactedLabel}`;
+    const lastContacted = contact.get('lastContacted');
+    const lastContactedLabel = lastContacted ?
+      `Last contacted ${lastContacted.format('MMM D, YYYY')}` :
+      'No date recorded for last contact';
     const contactDetails = [contact.get('email'), contact.get('phone')].filter((detail) => detail);
 
     return (
-      <div className={`${styles.contactInfo} col-sm-10`}>
+      <div className={styles.contactInfo}>
         {this.renderOptionButtons()}
         <h3>{contact.get('name') || '[No contact name]'}</h3>
         <p className={styles.stats}>
-          { lastContactedDescription }<br />
+          { lastContactedLabel }<br />
           Contact every { numberOfDaysLabel }<br />
           <Button className={styles.justContacted} bsSize="small">
             <Glyphicon glyph="ok" /> Just contacted!
@@ -164,6 +169,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
       phone: contact.get('phone'),
       lastContacted: moment(contact.get('lastContacted')).format('YYYY-MM-DD'),
       contactFrequency: contact.get('contactFrequency'),
+      notes: contact.get('notes'),
     };
 
     return (
@@ -173,18 +179,20 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
             <div className={`${styles.avatarColumn} col-sm-2`}>
               <img className={`${styles.avatar}`} src={avatar} alt="user avatar" />
             </div>
-            {
-              this.state.editing ?
-                <EditContact
-                  onCancelClick={() => this.onClickCancelEdit()}
-                  onSubmit={(values) => this.handleEditSubmit(values)}
-                  form={`EditContactForm_${contact.get('id')}`}
-                  initialValues={initialValues}
-                  appStatus={this.props.appStatus}
-                  contact={contact}
-                /> :
-                this.renderContactDetails()
-            }
+            <div className="col-sm-10">
+              {
+                this.state.editing ?
+                  <AddEditContactForm
+                    onCancelClick={() => this.onClickCancelEdit()}
+                    onSubmit={(values) => this.handleEditSubmit(values)}
+                    form={`AddEditContactForm_${contact.get('id')}`}
+                    initialValues={initialValues}
+                    appStatus={this.props.appStatus}
+                    contact={contact}
+                  /> :
+                  this.renderContactDetails()
+              }
+            </div>
           </div>
         </div>
 

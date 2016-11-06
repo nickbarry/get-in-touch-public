@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ContactCard from '../ContactCard';
+import ContactCard from '../Contacts/ContactCard';
 import { requestContactData } from './actions';
 import styles from './styles.css';
 
 class Dashboard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     // When the component is loading, we request the contacts from the server
-    console.log('app/containers/Dashboard/index.js:11; currentUser: ', this.props.signIn.get('currentUser'));
     this.props.requestContactData(this.props.signIn.get('currentUser'));
   }
 
@@ -16,10 +15,18 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
     // Determine which contacts are due or overdue today
     const NOW = new Date();
     const contactsDueToday = this.props.contacts
-      .filter((contact) => ( // The userId condition is only necessary while we're faking multi-user sign-in
-        (contact.get('userId') === +this.props.signIn.get('currentUser')) &&
-        contact.get('contactNext').isBefore(NOW)
-      ));
+      .filter((contact) => {
+        const noLastDateRecorded = !contact.get('lastContacted');
+        const isOverdue = noLastDateRecorded || // if no last date recorded, then we should contact them
+          contact.get('lastContacted').clone()
+            .add(contact.get('contactFrequency'), 'days')
+            .isBefore(NOW);
+
+        // The userId condition is only necessary while we're faking multi-user sign-in
+        const belongsToCurrentUser = contact.get('userId') === +this.props.signIn.get('currentUser');
+
+        return isOverdue && belongsToCurrentUser;
+      });
 
     return (
       <div>
