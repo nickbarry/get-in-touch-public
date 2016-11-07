@@ -183,8 +183,8 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
               {
                 this.state.editing ?
                   <AddEditContactForm
-                    onCancelClick={() => this.onClickCancelEdit()}
                     onSubmit={(values) => this.handleEditSubmit(values)}
+                    onCancelClick={() => this.onClickCancelEdit()}
                     form={`AddEditContactForm_${contact.get('id')}`}
                     initialValues={initialValues}
                     appStatus={this.props.appStatus}
