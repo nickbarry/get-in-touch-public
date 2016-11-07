@@ -19,9 +19,14 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
   open() {
     this.setState({ showModal: true });
   }
+  handleSubmit(values) {
+    const { requestAddContact, signIn } = this.props; // eslint-disable-line no-shadow
+    requestAddContact(signIn.get('currentUser'), values);
+    this.close();
+  }
 
   render() {
-    const { requestAddContact, signIn, appStatus } = this.props; // eslint-disable-line no-shadow
+    const { appStatus } = this.props;
     return (
       <div className={styles.addContactButton}>
         <Button
@@ -47,10 +52,7 @@ export class AddContactButton extends React.Component { // eslint-disable-line r
           <div className={styles.modalContent}>
             <AddEditContactForm
               form="AddEditContactForm"
-              handleSubmit={(values) => {
-                requestAddContact(signIn.get('currentUser'), values);
-                this.close();
-              }}
+              onSubmit={(values, values2) => this.handleSubmit(values, values2)}
               onCancelClick={() => this.close()}
               appStatus={appStatus}
               initialValues={{ contactFrequency: '180' }}
