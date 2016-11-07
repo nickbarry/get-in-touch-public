@@ -13,7 +13,8 @@ function* addContact(/* action */ { userId, values }) {
     if (response.error) {
       throw new Error(response.error);
     }
-    yield put({ type: ADD_CONTACT_SUCCESS });
+    const contact = response.data;
+    yield put({ type: ADD_CONTACT_SUCCESS, contact });
   } catch (error) {
     yield put({ type: ADD_CONTACT_FAILURE, error });
   }

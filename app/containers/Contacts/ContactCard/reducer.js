@@ -5,6 +5,9 @@ import {
   CONTACT_DELETION_SUCCESSFUL,
   UPDATE_CONTACT_SUCCESSFUL,
 } from './constants';
+import {
+  ADD_CONTACT_SUCCESS,
+} from '../AddContactButton/constants';
 import moment from 'moment';
 
 const initialState = fromJS([]);
@@ -14,12 +17,16 @@ const convertDatesToMoment = (contact) => {
   return Object.assign(contact, { lastContacted });
 };
 
+function addOneJSContactToState(state, contact) {
+  const idsInState = state.map((existingContact) => existingContact.get('id'));
+  const updatedContact = fromJS(convertDatesToMoment(contact));
+  return idsInState.includes(contact.id) ?
+    state :
+    state.push(updatedContact);
+}
+
 function loadFetchedContactData(state, action) {
-  const idsInState = state.map((contact) => contact.get('id'));
-  const newContacts = action.contacts
-    .filter((contact) => !idsInState.includes(contact.id))
-    .map(convertDatesToMoment);
-  return state.push(...(newContacts.map((contact) => fromJS(contact))));
+  return action.contacts.reduce((newState, contact) => addOneJSContactToState(newState, contact), state);
 }
 
 function updateContact(state, action) {
@@ -53,6 +60,8 @@ function updateLastContactedDate(state, action) {
 
 function contactsReducer(state = initialState, action) {
   switch (action.type) {
+    case ADD_CONTACT_SUCCESS:
+      return addOneJSContactToState(state, action.contact);
     case UPDATE_CONTACT_SUCCESSFUL:
       return updateContact(state, action);
     case MARK_CONTACT_CONTACTED:
