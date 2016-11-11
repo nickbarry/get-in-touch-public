@@ -49,9 +49,6 @@ const ContactModel = bookshelf.Model.extend({
 // Contacts API
 const ContactsAPI = {
   fetch() {
-    // todo: Ultimately we'll need to request just the appropriate contacts based on
-    // which user is signed in. But right now, since we're faking a log-in system,
-    // we'll just request all of them, and let the frontend decide which to display.
     return new ContactModel({}).fetchAll()
       .then((contacts) => contacts.toJSON());
   },
