@@ -89,7 +89,6 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
   }
 
   renderComposePane() {
-    // todo: Break this into its own container, probably
     const { contact } = this.props;
     const storiesGroupedByTopic = groupStoriesByTopic(this.props.stories);
 
