@@ -9,9 +9,8 @@ import {
   CONTACT_DELETION_SUCCESSFUL,
   CONTACT_DELETION_FAILED,
 } from './constants';
-import moment from 'moment';
 
-function* updateContact(/* action */ { contactId, userId, values, successCb }) {
+function* updateContact({ contactId, userId, values, successCb } /* <-- destructured action */) {
   try {
     const response = yield call(APIs.server.updateContact, contactId, userId, values);
     if (response.error) {
@@ -19,13 +18,10 @@ function* updateContact(/* action */ { contactId, userId, values, successCb }) {
     }
 
     successCb();
-    const valuesForState = Object.assign({}, values, {
-      lastContacted: moment(values.lastContacted),
-    });
     yield put({
       type: UPDATE_CONTACT_SUCCESSFUL,
       contactId,
-      values: valuesForState,
+      values,
     });
   } catch (error) {
     yield put({ type: UPDATE_CONTACT_FAILED, contactId, error });

@@ -122,7 +122,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
       `${contactFrequency} days`;
     const lastContacted = contact.get('lastContacted');
     const lastContactedLabel = lastContacted ?
-      `Last contacted ${lastContacted.format('MMM D, YYYY')}` :
+      `Last contacted ${moment(lastContacted).format('MMM D, YYYY')}` :
       'No date recorded for last contact';
     const contactDetails = [contact.get('email'), contact.get('phone')].filter((detail) => detail);
 
@@ -167,7 +167,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
       name: contact.get('name'),
       email: contact.get('email'),
       phone: contact.get('phone'),
-      lastContacted: moment(contact.get('lastContacted')).format('YYYY-MM-DD'),
+      lastContacted: contact.get('lastContacted'),
       contactFrequency: contact.get('contactFrequency'),
       notes: contact.get('notes'),
     };

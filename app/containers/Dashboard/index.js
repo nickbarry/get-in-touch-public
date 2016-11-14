@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import ContactCard from '../Contacts/ContactCard';
 import { requestContactData } from './actions';
 import styles from './styles.css';
+import moment from 'moment';
 
 class Dashboard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
@@ -18,7 +19,7 @@ class Dashboard extends React.Component { // eslint-disable-line react/prefer-st
       .filter((contact) => {
         const noLastDateRecorded = !contact.get('lastContacted');
         const isOverdue = noLastDateRecorded || // if no last date recorded, then we should contact them
-          contact.get('lastContacted').clone()
+          moment(contact.get('lastContacted'))
             .add(contact.get('contactFrequency'), 'days')
             .isBefore(NOW);
 
