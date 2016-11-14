@@ -7,23 +7,17 @@ import {
 import moment from 'moment';
 
 function getToday() {
-  return moment().hours(0).minutes(0).seconds(0).milliseconds(0);
+  return moment().format('YYYY-MM-DD');
 }
 
-export function markContactContacted(contactId, lastContactedParam = getToday()) {
-  const lastContacted = typeof lastContacted === 'string' ? moment(lastContactedParam) : lastContactedParam;
-  return {
-    type: MARK_CONTACT_CONTACTED,
-    contactId,
-    lastContacted,
-  };
-}
+export const markContactContacted = (contactId, lastContacted = getToday()) => ({
+  type: MARK_CONTACT_CONTACTED,
+  contactId,
+  lastContacted,
+});
 
 export function requestUpdateContact(contactId, userId, formValues, successCb) {
   const values = formValues.toJS();
-  values.lastContacted = values.lastContacted ?
-    moment(values.lastContacted).format() :
-    values.lastContacted;
 
   return {
     type: REQUEST_UPDATE_CONTACT,

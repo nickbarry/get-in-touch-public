@@ -8,21 +8,14 @@ import {
 import {
   ADD_CONTACT_SUCCESS,
 } from '../AddContactButton/constants';
-import moment from 'moment';
 
 const initialState = fromJS([]);
 
-const convertDatesToMoment = (contact) => {
-  const lastContacted = contact.lastContacted ? moment(contact.lastContacted) : contact.lastContacted;
-  return Object.assign(contact, { lastContacted });
-};
-
 function addOneJSContactToState(state, contact) {
   const idsInState = state.map((existingContact) => existingContact.get('id'));
-  const updatedContact = fromJS(convertDatesToMoment(contact));
   return idsInState.includes(contact.id) ?
     state :
-    state.push(updatedContact);
+    state.push(fromJS(contact));
 }
 
 function loadFetchedContactData(state, action) {

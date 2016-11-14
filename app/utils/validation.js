@@ -10,7 +10,6 @@ export function contactName(name) {
   return undefined;
 }
 export function contactNameWarning(name) {
-  // Name isn't required
   if (name && name.length > 120) {
     return 'Just double checking...is their name really this long? :)';
   }
@@ -28,15 +27,14 @@ export function contactEmail(email) {
 }
 
 export function contactPhone(phone) {
-  if (phone && phone.match(/[^0-9]/)) {
-    return 'Only numbers are allowed';
+  if (!phone) {
+    return undefined;
   }
-  return undefined;
-}
-
-export function contactLastContacted(lastContacted) {
-  if (lastContacted && lastContacted.match(/^\d{4}-\d{2}-\d{2}$/) === null) {
-    return 'You must enter a date.';
+  if (phone.match(/[^0-9() \-]/)) {
+    // If they're seeing this error, we've messed up, or they've tampered with the code, because
+    // the form's normalization should prevent anything other than these characters
+    // from appearing.
+    return 'Please only type numbers, parentheses, spaces, or hyphens';
   }
   return undefined;
 }
@@ -55,14 +53,72 @@ export function contactContactFrequencyWarning(contactFrequency) {
   return undefined;
 }
 
-export default {
-  contactValidation: {
-    contactName,
-    contactNameWarning,
-    contactEmail,
-    contactPhone,
-    contactLastContacted,
-    contactContactFrequency,
-    contactContactFrequencyWarning,
-  },
+export const normalizePhone = (value, previousValue) => {
+  const onlyNums = value && value.replace(/[^\d]/g, '');
+  if (!value) {
+    return value;
+  }
+  const typingForward = !previousValue || (value.length > previousValue.length);
+  if (value && !onlyNums) {
+    return typingForward ? '(' : '';
+  }
+  const format = '(___) ___-____';
+  const displayedValue = [];
+  let valuePlace = 0;
+  for (let i = 0; i < format.length; i++) { // eslint-disable-line no-plusplus
+    if (format[i] === '_') {
+      displayedValue[i] = onlyNums[valuePlace];
+      valuePlace += 1;
+    } else {
+      displayedValue[i] = format[i];
+    }
+    if (onlyNums[valuePlace] === undefined) { // If there are no more user-inputted numbers to format
+      if (typingForward) {
+        const whitespace = format.slice(i + 1).replace(/^([^_]*).*/, '$1');
+        displayedValue[i + 1] = whitespace;
+      }
+      break;
+    }
+  }
+  return displayedValue.join('');
+};
+
+// export const parsePhone = (phone) => {
+//  if (!phone) {
+//    return phone;
+//  }
+//  const onlyNums = phone.replace(/[^\d]/g, '');
+//  if (!onlyNums) {
+//    return undefined;
+//  }
+//  if (onlyNums.length < 10) {
+//    return onlyNums;
+//  }
+// };
+//
+// export const parseOnSubmit = (values) => {
+//  const parsedValues = Object.assign({}, values);
+//  const parsers = {
+//    phone: parsePhone,
+//  };
+//
+//  for (const name of Object.keys(parsers)) {
+//    if (values[name]) {
+//      parsedValues[name] = parsers[name](values[name]);
+//    }
+//  }
+//
+//  return parsedValues;
+// };
+
+export const contactValidation = {
+  name: contactName,
+  email: contactEmail,
+  phone: contactPhone,
+  contactFrequency: contactContactFrequency,
+};
+
+export const contactWarning = {
+  name: contactNameWarning,
+  contactFrequency: contactContactFrequencyWarning,
 };

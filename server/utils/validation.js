@@ -28,10 +28,13 @@ exports.contactEmail = function contactEmail(email) {
 };
 
 exports.contactPhone = function contactPhone(phone) {
-  if (phone && typeof phone !== 'string') {
+  if (!phone) {
+    return undefined;
+  }
+  if (typeof phone !== 'string') {
     return 'Phone must be a string';
   }
-  if (phone && phone.match(/[^0-9]/)) {
+  if (phone.match(/[^0-9() \-]/)) {
     return 'Phone number must not contain any non-numeric digits';
   }
   return undefined;
