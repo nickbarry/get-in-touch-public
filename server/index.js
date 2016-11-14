@@ -15,7 +15,7 @@ const expressJwt = require('express-jwt');
 
 // Middleware prior to loading routes
 app.use(bodyParser.json());
-app.use(expressJwt({ secret: config.jwtSecret }).unless({ path: ['/', '/login'] }));
+//app.use(expressJwt({ secret: config.jwtSecret }).unless({ path: ['/', '/login'] }));
 
 // Create routes for backend API and set up appropriate middleware
 const router = require('./routes');
