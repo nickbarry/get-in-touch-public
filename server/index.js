@@ -9,10 +9,15 @@ const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const resolve = require('path').resolve;
 const app = express();
+const config = require('../configUntracked');
+const bodyParser = require('body-parser');
+const expressJwt = require('express-jwt');
+
+// Middleware prior to loading routes
+app.use(bodyParser.json());
+//app.use(expressJwt({ secret: config.jwtSecret }).unless({ path: ['/', '/login'] }));
 
 // Create routes for backend API and set up appropriate middleware
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
 const router = require('./routes');
 app.use(router);
 
