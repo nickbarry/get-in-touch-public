@@ -69,7 +69,9 @@ const render = (translatedMessages) => {
           render={
             // Scroll to top when going to a new page, imitating default browser
             // behaviour
-            applyRouterMiddleware(useScroll())
+            applyRouterMiddleware(useScroll((prevRouterProps, { location }) => (
+              prevRouterProps && location.pathname !== prevRouterProps.location.pathname
+            )))
           }
         />
       </LanguageProvider>
