@@ -1,4 +1,6 @@
-const { bookshelf, contactsColumns } = require('./init');
+const dbInit = require('./init');
+const bookshelf = dbInit.bookshelf;
+const contactsColumns = dbInit.contactsColumns;
 const validation = require('../server/utils/validation');
 
 function findImproperKeys(columns, keyValues, noId) {

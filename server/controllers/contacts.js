@@ -1,4 +1,5 @@
-const { ContactsAPI } = require('../../db/API');
+const dbAPI = require('../../db/API');
+const ContactsAPI = dbAPI.ContactsAPI;
 
 const contacts = {
   fetch(req, res) {
