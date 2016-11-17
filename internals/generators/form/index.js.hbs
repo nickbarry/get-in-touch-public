@@ -1,0 +1,75 @@
+import React from 'react';
+import { Field, reduxForm } from 'redux-form/immutable';
+import RenderField from './RenderField';
+import { someValidationFn, someWarningFn } from '../../utils/validation';
+import { Button, Glyphicon } from 'react-bootstrap';
+{{#if wantCSS}}
+  import styles from './styles.css';
+{{/if}}
+import formStyles from '../../assets/formStyles.css';
+
+// The validate and warn functions passed to reduxForm will receive a values Immutable Map. The functions also expect an
+// array of fieldNames. The functions iterate over the fieldNames, and if there is a corresponding error or warning
+// function, that function will be used to check if the validation/warn function needs to return an error message.
+// So we use bind to partially apply the fieldNames as the first argument of the validation functions.
+const fields = {
+  fieldName1: 'fieldName1',
+  // ...more field names
+};
+const fieldNames = Object.keys(fields);
+const validate = someValidationFn.bind(null, fieldNames);
+const warn = someWarningFn.bind(null, fieldNames);
+
+export class {{ properCase name }} extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  render() {
+    const { handleSubmit, onCancelClick, submitting } = this.props;
+
+    return (
+    {{#if wantCSS}}
+      <form onSubmit={handleSubmit} className={{curly true}}styles.{{ camelCase name }}{{curly}}>
+    {{else}}
+      <form onSubmit={handleSubmit}>
+    {{/if}}
+        <Field name={fields.fieldName1} label="Field Name 1" type="text" component={RenderField} />
+        <div className={`row ${formStyles.formControls}`}>
+          <div className="col-sm-9 col-sm-offset-3">
+            <Button
+                type="submit"
+                bsStyle="primary"
+                disabled={submitting}
+                className={formStyles.editSubmitButton}
+            >
+              <Glyphicon glyph="ok" /> Submit
+            </Button>
+            <Button
+                onClick={onCancelClick}
+                bsStyle="danger"
+                disabled={submitting}
+                className={`pull-right ${formStyles.editCancelButton}`}
+            >
+              <Glyphicon glyph="remove" /> Cancel
+            </Button>
+          </div>
+        </div>
+      </form>
+    );
+  }
+}
+
+{{ properCase name }}.propTypes = {
+  handleSubmit: React.PropTypes.func,
+  onCancelClick: React.PropTypes.func,
+  submitting: React.PropTypes.bool,
+};
+
+export default reduxForm({
+  // TODO: pass in a form name in a `form` prop, e.g., `form: 'loginForm',`. Or pass it in from the parent component,
+  // and leave the comment below to explain that.
+
+  // We don't pass in a `form` prop here, because we pass it in from the parent component. That is useful because this
+  // form is used in multiple places throughout the site, and there are sometimes multiple instances of it on a page.
+  // Passing in the form name from the parent allows us to add a unique identifier to the name of each instance of the
+  // form.
+  validate,
+  warn,
+})({{ properCase name }});
