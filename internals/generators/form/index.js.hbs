@@ -20,6 +20,7 @@ const fieldNames = Object.keys(fields);
 const validate = someValidationFn.bind(null, fieldNames);
 const warn = someWarningFn.bind(null, fieldNames);
 
+// Export the naked component for testing
 export class {{ properCase name }} extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { handleSubmit, onCancelClick, submitting } = this.props;
@@ -57,13 +58,13 @@ export class {{ properCase name }} extends React.Component { // eslint-disable-l
 }
 
 {{ properCase name }}.propTypes = {
-  handleSubmit: React.PropTypes.func,
-  onCancelClick: React.PropTypes.func,
+  handleSubmit: React.PropTypes.func.isRequired,
+  onCancelClick: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool,
 };
 
 export default reduxForm({
-  // TODO: pass in a form name in a `form` prop, e.g., `form: 'loginForm',`. Or pass it in from the parent component,
+  // TODO: pass in a form name in a `form` prop, e.g., `form: 'LoginForm',`. Or pass it in from the parent component,
   // and leave the comment below to explain that.
 
   // We don't pass in a `form` prop here, because we pass it in from the parent component. That is useful because this
