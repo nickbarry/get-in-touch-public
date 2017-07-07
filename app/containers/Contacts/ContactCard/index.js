@@ -7,6 +7,7 @@ import { List, Map } from 'immutable';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
 import { requestUpdateContact, requestContactDeletion, cancelContactEditingAppState } from './actions';
 import AddEditContactForm from '../AddEditContactForm';
+import Wysiwyg from '../../Wysiwyg';
 import moment from 'moment';
 
 function groupStoriesByTopic(stories) {
@@ -109,6 +110,7 @@ export class ContactCard extends React.Component { // eslint-disable-line react/
             rows="10"
             ref={(c) => (c && c.focus())}
           />
+          <Wysiwyg />
         </div>
       </div>
     );
