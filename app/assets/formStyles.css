@@ -6,12 +6,15 @@
   -webkit-box-shadow: 0 0 5px 1px red;
 }
 
-.formErrorMessage, .formWarningMessage {
+.formErrorMessage,
+.formWarningMessage {
   margin: 1px 0;
 }
+
 .formErrorMessage {
   color: red;
 }
+
 .formWarningMessage {
-  color: #df8e00;
+  color: #DF8E00;
 }
