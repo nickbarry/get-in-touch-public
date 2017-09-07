@@ -1,5 +1,8 @@
-// <editor-fold desc="knex and bookshelf configuration">
-const knex = require('knex')({
+const Bookshelf = require('bookshelf');
+const Knex = require('knex');
+const Sequelize = require('sequelize');
+
+const knex = Knex({
   client: 'sqlite3',
   connection: {
     filename: './db/db.sqlite',
@@ -7,8 +10,7 @@ const knex = require('knex')({
   useNullAsDefault: true, // sqlite does not support inserting default values.
   debug: true,
 });
-const bookshelf = require('bookshelf')(knex);
-// </editor-fold>
+const bookshelf = Bookshelf(knex);
 
 const contactsColumns = {
   id: 'id',

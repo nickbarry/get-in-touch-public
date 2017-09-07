@@ -1,5 +1,5 @@
 const bluebird = require('bluebird');
-const config = require('../../configUntracked');
+const config = require('../../config/config.js');
 const google = require('googleapis');
 
 const OAuth2 = google.auth.OAuth2;

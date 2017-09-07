@@ -13,4 +13,4 @@ npm-debug.log
 db/db.sqlite
 
 # Env
-configUntracked.js
+config

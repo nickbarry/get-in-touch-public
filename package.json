@@ -231,6 +231,8 @@
     "lodash": "4.15.0",
     "minimist": "1.2.0",
     "moment": "^2.15.1",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
     "react": "15.3.1",
     "react-bootstrap": "^0.30.5",
     "react-dom": "15.3.1",
@@ -246,6 +248,8 @@
     "redux-immutable": "3.0.8",
     "redux-saga": "0.11.1",
     "sanitize.css": "4.1.0",
+    "sequelize": "^4.8.0",
+    "sequelize-cli": "^2.8.0",
     "sqlite3": "^3.1.6",
     "warning": "3.0.0",
     "whatwg-fetch": "1.0.0"
